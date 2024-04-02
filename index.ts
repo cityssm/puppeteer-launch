@@ -54,7 +54,7 @@ async function loadFallbackBrowsers(): Promise<InstalledWebBrowser[]> {
 /**
  * Launches a Puppeteer browser instance.
  * Automatically falls back to a system browser if no browser is available in the Puppeteer cache.
- * @param {Partial<LaunchOptions>} options - Optional launch parameters
+ * @param {puppeteer.LaunchOptions} options - Optional launch parameters
  * @returns {Promise<puppeteer.Browser>} - A Puppeteer browser instance.
  */
 export default async function launch(
