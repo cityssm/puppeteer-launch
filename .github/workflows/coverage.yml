@@ -78,6 +78,7 @@ jobs:
         run: |
           npm ci
           npm install -g mocha c8
+          npx puppeteer browsers install firefox
 
       - name: Run Coverage Testing
         run: npm run coverage
