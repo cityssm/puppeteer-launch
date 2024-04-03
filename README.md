@@ -23,7 +23,8 @@ npm install @cityssm/puppeteer-launch
 import puppeteerLaunch from '@cityssm/puppeteer-launch'
 
 // Launch the default cached browser (likely Chrome).
-// Will fallback to a system browser if no cached browser is available.
+// Will fallback to a system browser (either Chrome, Chromium, or Firefox)
+// if no cached browser is available.
 const browser = await puppeteerLaunch()
 
 // Launch a Firefox web browser.
