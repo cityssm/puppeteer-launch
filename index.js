@@ -30,6 +30,7 @@ export default async function launch(options) {
         return await puppeteer.launch(puppeteerOptions);
     }
     catch (error) {
+        debug('Switching to fallback browsers');
         const fallbackOptions = await loadFallbackBrowsers();
         for (const fallback of fallbackOptions) {
             if ((options?.product === 'firefox' && fallback.type !== 'firefox') ||
@@ -38,12 +39,16 @@ export default async function launch(options) {
                 continue;
             }
             try {
-                return await puppeteer.launch(Object.assign({}, puppeteerOptions, {
+                const browser = await puppeteer.launch(Object.assign({}, puppeteerOptions, {
                     project: fallback.type === 'firefox' ? 'firefox' : 'chrome',
                     executablePath: fallback.command
                 }));
+                debug('Launched browser');
+                debug(fallback);
+                return browser;
             }
             catch {
+                debug(`Error launching browser: ${fallback.command}`);
             }
         }
         throw error;
