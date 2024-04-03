@@ -29,7 +29,7 @@
   },
   "homepage": "https://github.com/cityssm/puppeteer-launch#readme",
   "dependencies": {
-    "@cityssm/web-browser-info": "^0.1.0",
+    "@cityssm/web-browser-info": "^0.1.1",
     "debug": "^4.3.4",
     "puppeteer": "^22.6.2"
   },
