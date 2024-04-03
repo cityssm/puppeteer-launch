@@ -49,3 +49,4 @@ export default async function launch(options) {
         throw error;
     }
 }
+export * as puppeteer from 'puppeteer';

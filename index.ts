@@ -91,3 +91,5 @@ export default async function launch(
     throw error
   }
 }
+
+export * as puppeteer from 'puppeteer'
