@@ -1,6 +1,6 @@
 import { chromeWebBrowserTypes, getInstalledWebBrowsers } from '@cityssm/web-browser-info';
 import Debug from 'debug';
-import * as puppeteer from 'puppeteer';
+import { launch as puppeteerLaunch } from 'puppeteer';
 const debug = Debug('puppeteer-launch');
 const defaultPuppeteerOptions = {
     timeout: 60_000
@@ -27,7 +27,7 @@ async function loadFallbackBrowsers() {
 export default async function launch(options) {
     const puppeteerOptions = Object.assign({}, defaultPuppeteerOptions, options);
     try {
-        return await puppeteer.launch(puppeteerOptions);
+        return await puppeteerLaunch(puppeteerOptions);
     }
     catch (error) {
         debug('Switching to fallback browsers');
@@ -39,7 +39,7 @@ export default async function launch(options) {
                 continue;
             }
             try {
-                const browser = await puppeteer.launch(Object.assign({}, puppeteerOptions, {
+                const browser = await puppeteerLaunch(Object.assign({}, puppeteerOptions, {
                     project: fallback.type === 'firefox' ? 'firefox' : 'chrome',
                     executablePath: fallback.command
                 }));

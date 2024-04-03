@@ -7,11 +7,15 @@ import {
   getInstalledWebBrowsers
 } from '@cityssm/web-browser-info'
 import Debug from 'debug'
-import * as puppeteer from 'puppeteer'
+import {
+  type Browser,
+  type LaunchOptions,
+  launch as puppeteerLaunch
+} from 'puppeteer'
 
 const debug = Debug('puppeteer-launch')
 
-const defaultPuppeteerOptions: puppeteer.LaunchOptions = {
+const defaultPuppeteerOptions: LaunchOptions = {
   timeout: 60_000
 }
 
@@ -54,16 +58,16 @@ async function loadFallbackBrowsers(): Promise<InstalledWebBrowser[]> {
 /**
  * Launches a Puppeteer browser instance.
  * Automatically falls back to a system browser if no browser is available in the Puppeteer cache.
- * @param {puppeteer.LaunchOptions} options - Optional launch parameters
- * @returns {Promise<puppeteer.Browser>} - A Puppeteer browser instance.
+ * @param {LaunchOptions} options - Optional launch parameters
+ * @returns {Promise<Browser>} - A Puppeteer browser instance.
  */
 export default async function launch(
-  options?: puppeteer.LaunchOptions
-): Promise<puppeteer.Browser> {
+  options?: LaunchOptions
+): Promise<Browser> {
   const puppeteerOptions = Object.assign({}, defaultPuppeteerOptions, options)
 
   try {
-    return await puppeteer.launch(puppeteerOptions)
+    return await puppeteerLaunch(puppeteerOptions)
   } catch (error) {
     debug('Switching to fallback browsers')
 
@@ -79,7 +83,7 @@ export default async function launch(
       }
 
       try {
-        const browser = await puppeteer.launch(
+        const browser = await puppeteerLaunch(
           Object.assign({}, puppeteerOptions, {
             project: fallback.type === 'firefox' ? 'firefox' : 'chrome',
             executablePath: fallback.command

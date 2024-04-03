@@ -1,3 +1,3 @@
-import * as puppeteer from 'puppeteer';
-export default function launch(options?: puppeteer.LaunchOptions): Promise<puppeteer.Browser>;
+import { type Browser, type LaunchOptions } from 'puppeteer';
+export default function launch(options?: LaunchOptions): Promise<Browser>;
 export * as puppeteer from 'puppeteer';
