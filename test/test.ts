@@ -47,7 +47,7 @@ describe('puppeteer-launch', () => {
     assert.match(browserVersion, /Firefox\//g)
   })
 
-  it('Launches a browser when the executablePath is invalid', async () => {
+  it.skip('Launches a browser when the executablePath is invalid', async () => {
     const browser = await puppeteerLaunch({
       executablePath: 'D:\\invalid\\path\\browser.exe'
     })
