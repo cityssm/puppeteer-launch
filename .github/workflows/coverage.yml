@@ -6,7 +6,7 @@ permissions: read-all
 
 jobs:
   Coverage-on-Ubuntu:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     env:
       CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
@@ -22,6 +22,7 @@ jobs:
         run: |
           npm ci
           npm install -g mocha c8
+          npx puppeteer browsers install firefox
 
       - name: Run Coverage Testing
         run: npm run coverage
