@@ -1,6 +1,6 @@
 {
   "name": "@cityssm/puppeteer-launch",
-  "version": "0.2.1",
+  "version": "1.0.0",
   "description": "Launch Puppeteer, falling back to system browsers when the cached ones aren't working or aren't available.",
   "type": "module",
   "exports": "./index.js",
