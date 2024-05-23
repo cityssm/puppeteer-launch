@@ -21,7 +21,7 @@ jobs:
       - name: Install Application
         run: |
           npm ci
-          npm install -g mocha c8
+          npm install -g c8
           npx puppeteer browsers install firefox
 
       - name: Run Coverage Testing
@@ -62,7 +62,7 @@ jobs:
       - name: Install Application
         run: |
           npm ci
-          npm install -g mocha c8
+          npm install -g c8
 
       - name: Run Coverage Testing
         run: npm run coverage
@@ -78,7 +78,7 @@ jobs:
       - name: Install Application
         run: |
           npm ci
-          npm install -g mocha c8
+          npm install -g c8
           npx puppeteer browsers install firefox
 
       - name: Run Coverage Testing

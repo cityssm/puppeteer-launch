@@ -1,9 +1,10 @@
 import { chromeWebBrowserTypes, getInstalledWebBrowsers } from '@cityssm/web-browser-info';
 import Debug from 'debug';
 import { launch as puppeteerLaunch } from 'puppeteer';
-const debug = Debug('puppeteer-launch');
+const debug = Debug('puppeteer-launch:index');
 const defaultPuppeteerOptions = {
-    timeout: 60_000
+    timeout: 60_000,
+    protocol: 'webDriverBiDi'
 };
 let installedWebBrowsers = [];
 async function loadFallbackBrowsers() {

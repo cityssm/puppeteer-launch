@@ -13,10 +13,11 @@ import {
   launch as puppeteerLaunch
 } from 'puppeteer'
 
-const debug = Debug('puppeteer-launch')
+const debug = Debug('puppeteer-launch:index')
 
 const defaultPuppeteerOptions: LaunchOptions = {
-  timeout: 60_000
+  timeout: 60_000,
+  protocol: 'webDriverBiDi'
 }
 
 let installedWebBrowsers: InstalledWebBrowser[] = []

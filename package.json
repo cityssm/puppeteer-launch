@@ -8,8 +8,8 @@
     "node": ">=18.0.0"
   },
   "scripts": {
-    "test": "cross-env DEBUG=puppeteer-launch mocha --timeout 120000 --exit",
-    "coverage": "cross-env DEBUG=puppeteer-launch c8 --reporter=lcov --reporter=text --reporter=text-summary mocha --timeout 120000 --exit"
+    "test": "cross-env DEBUG=puppeteer-launch:* node --test",
+    "coverage": "cross-env DEBUG=puppeteer-launch:* c8 --reporter=lcov --reporter=text --reporter=text-summary node --test"
   },
   "repository": {
     "type": "git",
@@ -31,12 +31,11 @@
   "dependencies": {
     "@cityssm/web-browser-info": "^1.0.0",
     "debug": "^4.3.4",
-    "puppeteer": "^22.7.1"
+    "puppeteer": "^22.9.0"
   },
   "devDependencies": {
     "@types/debug": "^4.1.12",
-    "@types/mocha": "^10.0.6",
     "cross-env": "^7.0.3",
-    "eslint-config-cityssm": "^2.0.1"
+    "eslint-config-cityssm": "^2.1.0"
   }
 }
