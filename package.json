@@ -31,7 +31,7 @@
   "dependencies": {
     "@cityssm/web-browser-info": "^1.0.0",
     "debug": "^4.3.4",
-    "puppeteer": "^22.9.0"
+    "puppeteer": "^22.10.0"
   },
   "devDependencies": {
     "@types/debug": "^4.1.12",
