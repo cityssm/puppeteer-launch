@@ -15,7 +15,11 @@ import {
 
 const debug = Debug('puppeteer-launch:index')
 
-const defaultPuppeteerOptions: LaunchOptions = {
+interface ExperimentalLaunchOptions {
+  protocol?: string
+}
+
+const defaultPuppeteerOptions: LaunchOptions & ExperimentalLaunchOptions = {
   timeout: 60_000,
   protocol: 'webDriverBiDi'
 }
@@ -70,7 +74,7 @@ export default async function launch(
   try {
     debug(`Attempting to launch browser: ${JSON.stringify(puppeteerOptions)}`)
 
-    const browser = await puppeteerLaunch(puppeteerOptions)
+    const browser = await puppeteerLaunch(puppeteerOptions as LaunchOptions)
 
     if (browser === undefined) {
       throw new Error()
@@ -105,7 +109,7 @@ export default async function launch(
           )}`
         )
 
-        const browser = await puppeteerLaunch(fallbackPuppeteerOptions)
+        const browser = await puppeteerLaunch(fallbackPuppeteerOptions as LaunchOptions)
 
         debug('Launched fallback browser')
         debug(fallback)
