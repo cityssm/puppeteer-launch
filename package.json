@@ -30,12 +30,13 @@
   "homepage": "https://github.com/cityssm/puppeteer-launch#readme",
   "dependencies": {
     "@cityssm/web-browser-info": "^1.0.0",
-    "debug": "^4.3.4",
-    "puppeteer": "^22.10.0"
+    "debug": "^4.3.5",
+    "puppeteer": "^22.13.1"
   },
   "devDependencies": {
     "@types/debug": "^4.1.12",
     "cross-env": "^7.0.3",
-    "eslint-config-cityssm": "^2.1.0"
+    "eslint-config-cityssm": "^5.0.1",
+    "prettier-config-cityssm": "^1.0.0"
   }
 }
