@@ -30,6 +30,6 @@ const browser = await puppeteerLaunch()
 // Launch a Firefox web browser.
 // Will use a system Firefox if no Firefox in the Puppeteer cache.
 const firefoxBrowser = await puppeteerLaunch({
-  product: 'firefox'
+  browser: 'firefox'
 })
 ```

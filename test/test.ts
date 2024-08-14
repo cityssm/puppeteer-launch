@@ -22,7 +22,7 @@ await describe('puppeteer-launch', async () => {
 
   await it('Launches a Chrome-based browser', async () => {
     const browser = await puppeteerLaunch({
-      product: 'chrome'
+      browser: 'chrome'
     })
 
     const browserVersion = await browser.version()
@@ -36,7 +36,7 @@ await describe('puppeteer-launch', async () => {
 
   await it('Launches a Firefox browser', async () => {
     const browser = await puppeteerLaunch({
-      product: 'firefox'
+      browser: 'firefox'
     })
 
     const browserVersion = await browser.version()
@@ -50,7 +50,7 @@ await describe('puppeteer-launch', async () => {
 
   await it.skip('Launches a browser when the executablePath is invalid', async () => {
     const browser = await puppeteerLaunch({
-      executablePath: 'D:\\invalid\\path\\browser.exe'
+      executablePath: String.raw`D:\invalid\path\browser.exe`
     })
 
     const browserVersion = await browser.version()

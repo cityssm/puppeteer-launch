@@ -1,4 +1,4 @@
-// eslint-disable-next-line eslint-comments/disable-enable-pair
+// eslint-disable-next-line @eslint-community/eslint-comments/disable-enable-pair
 /* eslint-disable security/detect-object-injection */
 
 import {
@@ -63,8 +63,8 @@ async function loadFallbackBrowsers(): Promise<InstalledWebBrowser[]> {
 /**
  * Launches a Puppeteer browser instance.
  * Automatically falls back to a system browser if no browser is available in the Puppeteer cache.
- * @param {LaunchOptions} options - Optional launch parameters
- * @returns {Promise<Browser>} - A Puppeteer browser instance.
+ * @param options - Optional launch parameters
+ * @returns - A Puppeteer browser instance.
  */
 export default async function launch(
   options?: LaunchOptions
@@ -77,7 +77,7 @@ export default async function launch(
     const browser = await puppeteerLaunch(puppeteerOptions as LaunchOptions)
 
     if (browser === undefined) {
-      throw new Error()
+      throw new Error('Puppeteer browser is undefined')
     }
 
     debug('Launched puppeteer browser')
@@ -90,8 +90,8 @@ export default async function launch(
 
     for (const fallback of fallbackOptions) {
       if (
-        (options?.product === 'firefox' && fallback.type !== 'firefox') ||
-        (options?.product === 'chrome' &&
+        (options?.browser === 'firefox' && fallback.type !== 'firefox') ||
+        (options?.browser === 'chrome' &&
           !(chromeWebBrowserTypes as string[]).includes(fallback.type))
       ) {
         continue
@@ -99,7 +99,7 @@ export default async function launch(
 
       try {
         const fallbackPuppeteerOptions = Object.assign({}, puppeteerOptions, {
-          project: fallback.type === 'firefox' ? 'firefox' : 'chrome',
+          browser: fallback.type === 'firefox' ? 'firefox' : 'chrome',
           executablePath: fallback.command
         })
 
@@ -109,7 +109,9 @@ export default async function launch(
           )}`
         )
 
-        const browser = await puppeteerLaunch(fallbackPuppeteerOptions as LaunchOptions)
+        const browser = await puppeteerLaunch(
+          fallbackPuppeteerOptions as LaunchOptions
+        )
 
         debug('Launched fallback browser')
         debug(fallback)
@@ -121,6 +123,7 @@ export default async function launch(
       }
     }
 
+    // eslint-disable-next-line @typescript-eslint/only-throw-error
     throw error
   }
 }

@@ -31,7 +31,7 @@ export default async function launch(options) {
         debug(`Attempting to launch browser: ${JSON.stringify(puppeteerOptions)}`);
         const browser = await puppeteerLaunch(puppeteerOptions);
         if (browser === undefined) {
-            throw new Error();
+            throw new Error('Puppeteer browser is undefined');
         }
         debug('Launched puppeteer browser');
         return browser;
@@ -40,14 +40,14 @@ export default async function launch(options) {
         debug('Switching to fallback browsers');
         const fallbackOptions = await loadFallbackBrowsers();
         for (const fallback of fallbackOptions) {
-            if ((options?.product === 'firefox' && fallback.type !== 'firefox') ||
-                (options?.product === 'chrome' &&
+            if ((options?.browser === 'firefox' && fallback.type !== 'firefox') ||
+                (options?.browser === 'chrome' &&
                     !chromeWebBrowserTypes.includes(fallback.type))) {
                 continue;
             }
             try {
                 const fallbackPuppeteerOptions = Object.assign({}, puppeteerOptions, {
-                    project: fallback.type === 'firefox' ? 'firefox' : 'chrome',
+                    browser: fallback.type === 'firefox' ? 'firefox' : 'chrome',
                     executablePath: fallback.command
                 });
                 debug(`Attempting to launch fallback browser: ${JSON.stringify(fallbackPuppeteerOptions)}`);
