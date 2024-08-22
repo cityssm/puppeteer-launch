@@ -10,7 +10,8 @@ import Debug from 'debug'
 import {
   type Browser,
   type LaunchOptions,
-  launch as puppeteerLaunch
+  launch as puppeteerLaunch,
+  PuppeteerLaunchOptions
 } from 'puppeteer'
 
 const debug = Debug('puppeteer-launch:index')
@@ -67,14 +68,14 @@ async function loadFallbackBrowsers(): Promise<InstalledWebBrowser[]> {
  * @returns - A Puppeteer browser instance.
  */
 export default async function launch(
-  options?: LaunchOptions
+  options?: PuppeteerLaunchOptions
 ): Promise<Browser> {
   const puppeteerOptions = Object.assign({}, defaultPuppeteerOptions, options)
 
   try {
     debug(`Attempting to launch browser: ${JSON.stringify(puppeteerOptions)}`)
 
-    const browser = await puppeteerLaunch(puppeteerOptions as LaunchOptions)
+    const browser = await puppeteerLaunch(puppeteerOptions)
 
     if (browser === undefined) {
       throw new Error('Puppeteer browser is undefined')
