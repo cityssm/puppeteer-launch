@@ -10,17 +10,13 @@ import Debug from 'debug'
 import {
   type Browser,
   type LaunchOptions,
-  launch as puppeteerLaunch,
-  PuppeteerLaunchOptions
+  type PuppeteerLaunchOptions,
+  launch as puppeteerLaunch
 } from 'puppeteer'
 
 const debug = Debug('puppeteer-launch:index')
 
-interface ExperimentalLaunchOptions {
-  protocol?: string
-}
-
-const defaultPuppeteerOptions: LaunchOptions & ExperimentalLaunchOptions = {
+const defaultPuppeteerOptions: PuppeteerLaunchOptions = {
   timeout: 60_000,
   protocol: 'webDriverBiDi'
 }
