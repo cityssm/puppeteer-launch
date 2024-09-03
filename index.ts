@@ -1,5 +1,5 @@
 // eslint-disable-next-line @eslint-community/eslint-comments/disable-enable-pair
-/* eslint-disable security/detect-object-injection */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return */
 
 import {
   type InstalledWebBrowser,
@@ -9,17 +9,11 @@ import {
 import Debug from 'debug'
 import {
   type Browser,
-  type LaunchOptions,
   type PuppeteerLaunchOptions,
   launch as puppeteerLaunch
 } from 'puppeteer'
 
 const debug = Debug('puppeteer-launch:index')
-
-const defaultPuppeteerOptions: PuppeteerLaunchOptions = {
-  timeout: 60_000,
-  protocol: 'webDriverBiDi'
-}
 
 let installedWebBrowsers: InstalledWebBrowser[] = []
 
@@ -64,9 +58,14 @@ async function loadFallbackBrowsers(): Promise<InstalledWebBrowser[]> {
  * @returns - A Puppeteer browser instance.
  */
 export default async function launch(
-  options?: PuppeteerLaunchOptions
+  options: PuppeteerLaunchOptions = {}
 ): Promise<Browser> {
-  const puppeteerOptions = Object.assign({}, defaultPuppeteerOptions, options)
+  const puppeteerOptions: PuppeteerLaunchOptions = {
+    timeout: 60_000,
+    protocol: 'webDriverBiDi',
+    headless: true,
+    ...options
+  }
 
   try {
     debug(`Attempting to launch browser: ${JSON.stringify(puppeteerOptions)}`)
@@ -87,18 +86,20 @@ export default async function launch(
 
     for (const fallback of fallbackOptions) {
       if (
-        (options?.browser === 'firefox' && fallback.type !== 'firefox') ||
-        (options?.browser === 'chrome' &&
+        (options.browser === 'firefox' && fallback.type !== 'firefox') ||
+        (options.browser === 'chrome' &&
           !(chromeWebBrowserTypes as string[]).includes(fallback.type))
       ) {
         continue
       }
 
       try {
-        const fallbackPuppeteerOptions = Object.assign({}, puppeteerOptions, {
+        const fallbackPuppeteerOptions: PuppeteerLaunchOptions = {
+          ...puppeteerOptions,
+
           browser: fallback.type === 'firefox' ? 'firefox' : 'chrome',
           executablePath: fallback.command
-        })
+        }
 
         debug(
           `Attempting to launch fallback browser: ${JSON.stringify(
@@ -106,9 +107,7 @@ export default async function launch(
           )}`
         )
 
-        const browser = await puppeteerLaunch(
-          fallbackPuppeteerOptions as LaunchOptions
-        )
+        const browser = await puppeteerLaunch(fallbackPuppeteerOptions)
 
         debug('Launched fallback browser')
         debug(fallback)

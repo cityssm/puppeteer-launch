@@ -2,10 +2,6 @@ import { chromeWebBrowserTypes, getInstalledWebBrowsers } from '@cityssm/web-bro
 import Debug from 'debug';
 import { launch as puppeteerLaunch } from 'puppeteer';
 const debug = Debug('puppeteer-launch:index');
-const defaultPuppeteerOptions = {
-    timeout: 60_000,
-    protocol: 'webDriverBiDi'
-};
 let installedWebBrowsers = [];
 async function loadFallbackBrowsers() {
     if (installedWebBrowsers.length === 0) {
@@ -25,8 +21,13 @@ async function loadFallbackBrowsers() {
     }
     return installedWebBrowsers;
 }
-export default async function launch(options) {
-    const puppeteerOptions = Object.assign({}, defaultPuppeteerOptions, options);
+export default async function launch(options = {}) {
+    const puppeteerOptions = {
+        timeout: 60_000,
+        protocol: 'webDriverBiDi',
+        headless: true,
+        ...options
+    };
     try {
         debug(`Attempting to launch browser: ${JSON.stringify(puppeteerOptions)}`);
         const browser = await puppeteerLaunch(puppeteerOptions);
@@ -40,16 +41,17 @@ export default async function launch(options) {
         debug('Switching to fallback browsers');
         const fallbackOptions = await loadFallbackBrowsers();
         for (const fallback of fallbackOptions) {
-            if ((options?.browser === 'firefox' && fallback.type !== 'firefox') ||
-                (options?.browser === 'chrome' &&
+            if ((options.browser === 'firefox' && fallback.type !== 'firefox') ||
+                (options.browser === 'chrome' &&
                     !chromeWebBrowserTypes.includes(fallback.type))) {
                 continue;
             }
             try {
-                const fallbackPuppeteerOptions = Object.assign({}, puppeteerOptions, {
+                const fallbackPuppeteerOptions = {
+                    ...puppeteerOptions,
                     browser: fallback.type === 'firefox' ? 'firefox' : 'chrome',
                     executablePath: fallback.command
-                });
+                };
                 debug(`Attempting to launch fallback browser: ${JSON.stringify(fallbackPuppeteerOptions)}`);
                 const browser = await puppeteerLaunch(fallbackPuppeteerOptions);
                 debug('Launched fallback browser');
