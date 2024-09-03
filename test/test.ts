@@ -1,3 +1,6 @@
+// eslint-disable-next-line @eslint-community/eslint-comments/disable-enable-pair
+/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access */
+
 import assert from 'node:assert'
 import { beforeEach, describe, it } from 'node:test'
 
