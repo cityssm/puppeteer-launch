@@ -9,7 +9,7 @@ import {
 import Debug from 'debug'
 import {
   type Browser,
-  type PuppeteerLaunchOptions,
+  type LaunchOptions,
   launch as puppeteerLaunch
 } from 'puppeteer'
 
@@ -58,9 +58,9 @@ async function loadFallbackBrowsers(): Promise<InstalledWebBrowser[]> {
  * @returns - A Puppeteer browser instance.
  */
 export default async function launch(
-  options: PuppeteerLaunchOptions = {}
+  options: LaunchOptions = {}
 ): Promise<Browser> {
-  const puppeteerOptions: PuppeteerLaunchOptions = {
+  const puppeteerOptions: LaunchOptions = {
     timeout: 60_000,
     protocol: 'webDriverBiDi',
     headless: true,
@@ -72,6 +72,7 @@ export default async function launch(
 
     const browser = await puppeteerLaunch(puppeteerOptions)
 
+    // eslint-disable-next-line sonarjs/different-types-comparison
     if (browser === undefined) {
       throw new Error('Puppeteer browser is undefined')
     }
@@ -94,7 +95,7 @@ export default async function launch(
       }
 
       try {
-        const fallbackPuppeteerOptions: PuppeteerLaunchOptions = {
+        const fallbackPuppeteerOptions: LaunchOptions = {
           ...puppeteerOptions,
 
           browser: fallback.type === 'firefox' ? 'firefox' : 'chrome',
