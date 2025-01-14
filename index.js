@@ -1,13 +1,20 @@
 import { chromeWebBrowserTypes, getInstalledWebBrowsers } from '@cityssm/web-browser-info';
 import Debug from 'debug';
 import { launch as puppeteerLaunch } from 'puppeteer';
-const debug = Debug('puppeteer-launch:index');
+import { DEBUG_NAMESPACE } from './debug.config.js';
+const debug = Debug(`${DEBUG_NAMESPACE}:index`);
 let installedWebBrowsers = [];
 async function loadFallbackBrowsers() {
     if (installedWebBrowsers.length === 0) {
         const tempInstalledWebBrowsers = [];
+        /*
+         * Load Chrome first
+         */
         const fallbackChromeBrowsers = await getInstalledWebBrowsers(chromeWebBrowserTypes, 110);
         tempInstalledWebBrowsers.push(...fallbackChromeBrowsers);
+        /*
+         * Load Firefox
+         */
         const fallbackFirefoxBrowsers = await getInstalledWebBrowsers('firefox');
         tempInstalledWebBrowsers.push(...fallbackFirefoxBrowsers);
         installedWebBrowsers = tempInstalledWebBrowsers;
@@ -21,6 +28,12 @@ async function loadFallbackBrowsers() {
     }
     return installedWebBrowsers;
 }
+/**
+ * Launches a Puppeteer browser instance.
+ * Automatically falls back to a system browser if no browser is available in the Puppeteer cache.
+ * @param options - Optional launch parameters
+ * @returns - A Puppeteer browser instance.
+ */
 export default async function launch(options = {}) {
     const puppeteerOptions = {
         timeout: 60_000,
@@ -31,6 +44,7 @@ export default async function launch(options = {}) {
     try {
         debug(`Attempting to launch browser: ${JSON.stringify(puppeteerOptions)}`);
         const browser = await puppeteerLaunch(puppeteerOptions);
+        // eslint-disable-next-line sonarjs/different-types-comparison, @typescript-eslint/no-unnecessary-condition
         if (browser === undefined) {
             throw new Error('Puppeteer browser is undefined');
         }
@@ -60,8 +74,10 @@ export default async function launch(options = {}) {
             }
             catch {
                 debug(`Error launching browser: ${fallback.command}`);
+                // ignore, try the next one
             }
         }
+        // eslint-disable-next-line @typescript-eslint/only-throw-error
         throw error;
     }
 }

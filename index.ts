@@ -1,6 +1,3 @@
-// eslint-disable-next-line @eslint-community/eslint-comments/disable-enable-pair
-/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return */
-
 import {
   type InstalledWebBrowser,
   chromeWebBrowserTypes,
@@ -13,7 +10,9 @@ import {
   launch as puppeteerLaunch
 } from 'puppeteer'
 
-const debug = Debug('puppeteer-launch:index')
+import { DEBUG_NAMESPACE } from './debug.config.js'
+
+const debug = Debug(`${DEBUG_NAMESPACE}:index`)
 
 let installedWebBrowsers: InstalledWebBrowser[] = []
 
@@ -72,7 +71,7 @@ export default async function launch(
 
     const browser = await puppeteerLaunch(puppeteerOptions)
 
-    // eslint-disable-next-line sonarjs/different-types-comparison
+    // eslint-disable-next-line sonarjs/different-types-comparison, @typescript-eslint/no-unnecessary-condition
     if (browser === undefined) {
       throw new Error('Puppeteer browser is undefined')
     }

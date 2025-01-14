@@ -3,13 +3,16 @@
   "version": "3.2.0",
   "description": "Launch Puppeteer, falling back to system browsers when the cached ones aren't working or aren't available.",
   "type": "module",
-  "exports": "./index.js",
+  "exports": {
+    ".": "./index.js",
+    "./debug": "./debug.config.js"
+  },
   "engines": {
     "node": ">=18.0.0"
   },
   "scripts": {
-    "test": "cross-env DEBUG=puppeteer-launch:* node --test",
-    "coverage": "cross-env DEBUG=puppeteer-launch:* c8 --reporter=lcov --reporter=text --reporter=text-summary node --test"
+    "test": "node --test",
+    "coverage": "c8 --reporter=lcov --reporter=text --reporter=text-summary node --test"
   },
   "repository": {
     "type": "git",
@@ -31,12 +34,11 @@
   "dependencies": {
     "@cityssm/web-browser-info": "^1.0.0",
     "debug": "^4.4.0",
-    "puppeteer": "^23.11.1"
+    "puppeteer": "^24.0.0"
   },
   "devDependencies": {
     "@types/debug": "^4.1.12",
-    "cross-env": "^7.0.3",
-    "eslint-config-cityssm": "^18.1.2",
+    "eslint-config-cityssm": "^18.3.0",
     "prettier-config-cityssm": "^1.0.0"
   }
 }

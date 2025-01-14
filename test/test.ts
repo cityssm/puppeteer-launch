@@ -1,10 +1,14 @@
-// eslint-disable-next-line @eslint-community/eslint-comments/disable-enable-pair
-/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access */
-
 import assert from 'node:assert'
 import { beforeEach, describe, it } from 'node:test'
 
+import Debug from 'debug'
+
+import { DEBUG_ENABLE_NAMESPACES, DEBUG_NAMESPACE } from '../debug.config.js'
 import puppeteerLaunch from '../index.js'
+
+Debug.enable(DEBUG_ENABLE_NAMESPACES)
+
+const debug = Debug(`${DEBUG_NAMESPACE}:test`)
 
 await describe('puppeteer-launch', async () => {
   beforeEach(() => {
@@ -18,7 +22,7 @@ await describe('puppeteer-launch', async () => {
 
     await browser.close()
 
-    console.log(`Browser: ${browserVersion}`)
+    debug(`Browser: ${browserVersion}`)
 
     assert.ok(true)
   })
@@ -32,7 +36,7 @@ await describe('puppeteer-launch', async () => {
 
     await browser.close()
 
-    console.log(`Browser: ${browserVersion}`)
+    debug(`Browser: ${browserVersion}`)
 
     assert.match(browserVersion, /chrome\//gi)
   })
@@ -46,7 +50,7 @@ await describe('puppeteer-launch', async () => {
 
     await browser.close()
 
-    console.log(`Browser: ${browserVersion}`)
+    debug(`Browser: ${browserVersion}`)
 
     assert.match(browserVersion, /firefox\//gi)
   })
@@ -60,7 +64,7 @@ await describe('puppeteer-launch', async () => {
 
     await browser.close()
 
-    console.log(`Browser: ${browserVersion}`)
+    debug(`Browser: ${browserVersion}`)
 
     assert.ok(true)
   })
