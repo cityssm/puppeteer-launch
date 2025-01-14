@@ -37,7 +37,6 @@ async function loadFallbackBrowsers() {
 export default async function launch(options = {}) {
     const puppeteerOptions = {
         timeout: 60_000,
-        protocol: 'webDriverBiDi',
         headless: true,
         ...options
     };

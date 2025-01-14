@@ -61,7 +61,6 @@ export default async function launch(
 ): Promise<Browser> {
   const puppeteerOptions: LaunchOptions = {
     timeout: 60_000,
-    protocol: 'webDriverBiDi',
     headless: true,
     ...options
   }
