@@ -2,22 +2,6 @@
   "name": "@cityssm/puppeteer-launch",
   "version": "4.0.0",
   "description": "Launch Puppeteer, falling back to system browsers when the cached ones aren't working or aren't available.",
-  "type": "module",
-  "exports": {
-    ".": "./index.js",
-    "./debug": "./debug.config.js"
-  },
-  "engines": {
-    "node": ">=18.0.0"
-  },
-  "scripts": {
-    "test": "node --test",
-    "coverage": "c8 --reporter=lcov --reporter=text --reporter=text-summary node --test"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/cityssm/puppeteer-launch.git"
-  },
   "keywords": [
     "chrome",
     "chromium",
@@ -25,20 +9,36 @@
     "puppeteer",
     "web-browser"
   ],
-  "author": "The Corporation of the City of Sault Ste. Marie",
-  "license": "MIT",
+  "homepage": "https://github.com/cityssm/puppeteer-launch#readme",
   "bugs": {
     "url": "https://github.com/cityssm/puppeteer-launch/issues"
   },
-  "homepage": "https://github.com/cityssm/puppeteer-launch#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cityssm/puppeteer-launch.git"
+  },
+  "license": "MIT",
+  "author": "The Corporation of the City of Sault Ste. Marie",
+  "type": "module",
+  "exports": {
+    ".": "./index.js",
+    "./debug": "./debug.config.js"
+  },
+  "scripts": {
+    "coverage": "c8 --reporter=lcov --reporter=text --reporter=text-summary node --test",
+    "test": "node --test"
+  },
   "dependencies": {
     "@cityssm/web-browser-info": "^1.0.0",
     "debug": "^4.4.1",
-    "puppeteer": "^24.11.0"
+    "puppeteer": "^24.15.0"
   },
   "devDependencies": {
     "@types/debug": "^4.1.12",
-    "eslint-config-cityssm": "^25.0.0",
+    "eslint-config-cityssm": "^27.1.0",
     "prettier-config-cityssm": "^1.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }
