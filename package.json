@@ -26,7 +26,7 @@
   },
   "scripts": {
     "coverage": "c8 --reporter=lcov --reporter=text --reporter=text-summary node --test",
-    "postinstall": "npm explore puppeteer -- npm run postinstall",
+    "postinstall": "npx puppeteer browsers install",
     "test": "node --test"
   },
   "dependencies": {
