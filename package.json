@@ -26,6 +26,7 @@
   },
   "scripts": {
     "coverage": "c8 --reporter=lcov --reporter=text --reporter=text-summary node --test",
+    "postinstall": "npm explore puppeteer -- npm run postinstall",
     "test": "node --test"
   },
   "dependencies": {
