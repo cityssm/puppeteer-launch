@@ -102,6 +102,8 @@ export default async function launch(
 
     if (browserOrder.length > 0) {
       puppeteerOptions.browser = undefined
+      puppeteerOptions.executablePath = undefined
+
       return await launch({
         ...puppeteerOptions,
         browserOrder
