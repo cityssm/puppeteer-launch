@@ -9,7 +9,7 @@ await describe('puppeteer-launch', async () => {
     beforeEach(() => {
         console.log('\n');
     });
-    await it.skip('Launches the default browser', async () => {
+    await it('Launches the default browser', async () => {
         const browser = await puppeteerLaunch({
             args: ['--no-sandbox']
         });
@@ -37,15 +37,5 @@ await describe('puppeteer-launch', async () => {
         await browser.close();
         debug(`Browser: ${browserVersion}`);
         assert.match(browserVersion, /firefox\//gi);
-    });
-    await it.skip('Launches a browser when the executablePath is invalid', async () => {
-        const browser = await puppeteerLaunch({
-            executablePath: String.raw `D:\invalid\path\browser.exe`,
-            args: ['--no-sandbox']
-        });
-        const browserVersion = await browser.version();
-        await browser.close();
-        debug(`Browser: ${browserVersion}`);
-        assert.ok(true);
     });
 });
