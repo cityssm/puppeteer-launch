@@ -42,7 +42,8 @@ export default async function launch(
    * Set browser order
    */
 
-  let browserOrder = options.browserOrder
+  let browserOrder =
+    options.browserOrder === undefined ? undefined : [...options.browserOrder]
 
   if (browserOrder === undefined) {
     if (puppeteerOptions.browser === 'firefox') {
