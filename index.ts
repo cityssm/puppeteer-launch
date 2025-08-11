@@ -1,8 +1,3 @@
-import {
-  type InstalledWebBrowser,
-  chromeWebBrowserTypes,
-  getInstalledWebBrowsers
-} from '@cityssm/web-browser-info'
 import Debug from 'debug'
 import {
   type Browser,
@@ -11,44 +6,18 @@ import {
 } from 'puppeteer'
 
 import { DEBUG_NAMESPACE } from './debug.config.js'
+import { getUserChromePath, getUserFirefoxPath } from './user.js'
 
 const debug = Debug(`${DEBUG_NAMESPACE}:index`)
 
-let installedWebBrowsers: InstalledWebBrowser[] = []
+type RetryBrowser = 'chrome-user' | 'chrome' | 'firefox-user' | 'firefox'
 
-async function loadFallbackBrowsers(): Promise<InstalledWebBrowser[]> {
-  if (installedWebBrowsers.length === 0) {
-    const tempInstalledWebBrowsers: InstalledWebBrowser[] = []
-
-    /*
-     * Load Chrome first
-     */
-
-    const fallbackChromeBrowsers = await getInstalledWebBrowsers(
-      chromeWebBrowserTypes,
-      110
-    )
-    tempInstalledWebBrowsers.push(...fallbackChromeBrowsers)
-
-    /*
-     * Load Firefox
-     */
-
-    const fallbackFirefoxBrowsers = await getInstalledWebBrowsers('firefox')
-    tempInstalledWebBrowsers.push(...fallbackFirefoxBrowsers)
-
-    installedWebBrowsers = tempInstalledWebBrowsers
-
-    if (tempInstalledWebBrowsers.length === 0) {
-      throw new Error('No fallback system browsers available.')
-    } else {
-      debug('Available fallback browsers:')
-      debug(tempInstalledWebBrowsers)
-    }
-  }
-
-  return installedWebBrowsers
-}
+export const browserOrderDefault = [
+  'chrome',
+  'firefox',
+  'chrome-user',
+  'firefox-user'
+] as RetryBrowser[]
 
 /**
  * Launches a Puppeteer browser instance.
@@ -57,20 +26,70 @@ async function loadFallbackBrowsers(): Promise<InstalledWebBrowser[]> {
  * @returns - A Puppeteer browser instance.
  */
 export default async function launch(
-  options: LaunchOptions = {}
+  options: LaunchOptions & { browserOrder?: RetryBrowser[] } = {}
 ): Promise<Browser> {
+  /*
+   * Set default Puppeteer options
+   */
+
   const puppeteerOptions: LaunchOptions = {
-    timeout: 60_000,
     headless: true,
+    timeout: 60_000,
     ...options
   }
+
+  /*
+   * Set browser order
+   */
+
+  let browserOrder = options.browserOrder
+
+  if (browserOrder === undefined) {
+    if (puppeteerOptions.browser === 'firefox') {
+      browserOrder = ['firefox', 'firefox-user']
+    } else if (puppeteerOptions.browser === 'chrome') {
+      browserOrder = ['chrome', 'chrome-user']
+    } else {
+      browserOrder = browserOrderDefault
+    }
+  }
+
+  /*
+   * If no browser is specified, try to load one from the browser order
+   */
+
+  if (puppeteerOptions.browser === undefined && browserOrder.length > 0) {
+    const browserToLoad = browserOrder.shift()
+
+    debug(`Loading browser: ${browserToLoad}`)
+
+    if (browserToLoad === 'firefox-user') {
+      const firefoxPath = await getUserFirefoxPath()
+      if (firefoxPath !== undefined) {
+        puppeteerOptions.executablePath = firefoxPath
+      }
+      puppeteerOptions.browser = 'firefox'
+    } else if (browserToLoad === 'chrome-user') {
+      const chromePath = await getUserChromePath()
+      if (chromePath !== undefined) {
+        puppeteerOptions.executablePath = chromePath
+      }
+      puppeteerOptions.browser = 'chrome'
+    } else {
+      puppeteerOptions.browser = browserToLoad
+    }
+  }
+
+  /*
+   * Attempt to launch the browser
+   */
 
   try {
     debug(`Attempting to launch browser: ${JSON.stringify(puppeteerOptions)}`)
 
     const browser = await puppeteerLaunch(puppeteerOptions)
 
-    // eslint-disable-next-line sonarjs/different-types-comparison, @typescript-eslint/no-unnecessary-condition
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     if (browser === undefined) {
       throw new Error('Puppeteer browser is undefined')
     }
@@ -79,43 +98,14 @@ export default async function launch(
 
     return browser
   } catch (error) {
-    debug('Switching to fallback browsers')
+    // debug(`Error launching browser: ${error}`)
 
-    const fallbackOptions = await loadFallbackBrowsers()
-
-    for (const fallback of fallbackOptions) {
-      if (
-        (options.browser === 'firefox' && fallback.type !== 'firefox') ||
-        (options.browser === 'chrome' &&
-          !(chromeWebBrowserTypes as string[]).includes(fallback.type))
-      ) {
-        continue
-      }
-
-      try {
-        const fallbackPuppeteerOptions: LaunchOptions = {
-          ...puppeteerOptions,
-
-          browser: fallback.type === 'firefox' ? 'firefox' : 'chrome',
-          executablePath: fallback.command
-        }
-
-        debug(
-          `Attempting to launch fallback browser: ${JSON.stringify(
-            fallbackPuppeteerOptions
-          )}`
-        )
-
-        const browser = await puppeteerLaunch(fallbackPuppeteerOptions)
-
-        debug('Launched fallback browser')
-        debug(fallback)
-
-        return browser
-      } catch {
-        debug(`Error launching browser: ${fallback.command}`)
-        // ignore, try the next one
-      }
+    if (browserOrder.length > 0) {
+      puppeteerOptions.browser = undefined
+      return await launch({
+        ...puppeteerOptions,
+        browserOrder
+      })
     }
 
     throw error
@@ -123,3 +113,5 @@ export default async function launch(
 }
 
 export * as puppeteer from 'puppeteer'
+
+export { installChromeBrowser, installFirefoxBrowser } from './installers.js'

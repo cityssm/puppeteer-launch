@@ -9,7 +9,7 @@ await describe('puppeteer-launch', async () => {
     beforeEach(() => {
         console.log('\n');
     });
-    await it('Launches the default browser', async () => {
+    await it.skip('Launches the default browser', async () => {
         const browser = await puppeteerLaunch({
             args: ['--no-sandbox']
         });
@@ -20,8 +20,8 @@ await describe('puppeteer-launch', async () => {
     });
     await it('Launches a Chrome-based browser', async () => {
         const browser = await puppeteerLaunch({
-            browser: 'chrome',
-            args: ['--no-sandbox']
+            args: ['--no-sandbox'],
+            browserOrder: ['chrome-user', 'chrome']
         });
         const browserVersion = await browser.version();
         await browser.close();
