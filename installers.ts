@@ -16,10 +16,16 @@ async function installBrowser(browser: 'chrome' | 'firefox'): Promise<void> {
   })
 }
 
+/**
+ * Installs the Chrome browser for Puppeteer.
+ */
 export async function installChromeBrowser(): Promise<void> {
   await installBrowser('chrome')
 }
 
+/**
+ * Installs the Firefox browser for Puppeteer.
+ */
 export async function installFirefoxBrowser(): Promise<void> {
   await installBrowser('firefox')
 }

@@ -14,9 +14,15 @@ async function installBrowser(browser) {
         });
     });
 }
+/**
+ * Installs the Chrome browser for Puppeteer.
+ */
 export async function installChromeBrowser() {
     await installBrowser('chrome');
 }
+/**
+ * Installs the Firefox browser for Puppeteer.
+ */
 export async function installFirefoxBrowser() {
     await installBrowser('firefox');
 }

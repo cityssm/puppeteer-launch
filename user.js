@@ -17,11 +17,19 @@ async function loadUserBrowsers() {
         browsersLoaded = true;
     }
 }
+/**
+ * Gets the path to the user's Chrome browser.
+ * @returns The path to the user's Chrome browser, or undefined if not found.
+ */
 export async function getUserChromePath() {
     await loadUserBrowsers();
     const chromePath = chromeBrowsers[0]?.command;
     return chromePath;
 }
+/**
+ * Gets the path to the user's Firefox browser.
+ * @returns The path to the user's Firefox browser, or undefined if not found.
+ */
 export async function getUserFirefoxPath() {
     await loadUserBrowsers();
     const firefoxPath = firefoxBrowsers[0]?.command;
