@@ -2,7 +2,7 @@ import assert from 'node:assert';
 import { beforeEach, describe, it } from 'node:test';
 import Debug from 'debug';
 import { DEBUG_ENABLE_NAMESPACES, DEBUG_NAMESPACE } from '../debug.config.js';
-import puppeteerLaunch from '../index.js';
+import puppeteerLaunch, { installChromeBrowser, installFirefoxBrowser } from '../index.js';
 Debug.enable(DEBUG_ENABLE_NAMESPACES);
 const debug = Debug(`${DEBUG_NAMESPACE}:test`);
 await describe('puppeteer-launch', async () => {
@@ -37,5 +37,13 @@ await describe('puppeteer-launch', async () => {
         await browser.close();
         debug(`Browser: ${browserVersion}`);
         assert.match(browserVersion, /firefox\//gi);
+    });
+    await it('Runs Chrome installer', async () => {
+        await installChromeBrowser();
+        assert.ok(true);
+    });
+    await it('Runs Firefox installer', async () => {
+        await installFirefoxBrowser();
+        assert.ok(true);
     });
 });
