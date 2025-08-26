@@ -117,4 +117,11 @@ export default async function launch(
 
 export * as puppeteer from 'puppeteer'
 
-export { installChromeBrowser, installFirefoxBrowser } from './installers.js'
+export {
+  installBrowser,
+  installChromeBrowser,
+  installFirefoxBrowser,
+  testInstalledBrowser,
+  testInstalledChromeBrowser,
+  testInstalledFirefoxBrowser
+} from './installers.js'
