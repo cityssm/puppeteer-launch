@@ -2,6 +2,7 @@
 /* eslint-disable security/detect-child-process, sonarjs/os-command */
 import { exec } from 'node:child_process';
 import puppeteer from 'puppeteer';
+import { chromeName } from './user.js';
 export const INSTALLER_TIMEOUT = 5 * 60 * 1000;
 /**
  * Installs the specified browser for Puppeteer.
@@ -26,7 +27,7 @@ export async function installBrowser(browser) {
  * Installs the Chrome browser for Puppeteer.
  */
 export async function installChromeBrowser() {
-    await installBrowser('chrome');
+    await installBrowser(chromeName);
 }
 /**
  * Installs the Firefox browser for Puppeteer.
@@ -44,7 +45,7 @@ export async function testInstalledBrowser(browserName, installIfUnavailable = f
     let browser;
     try {
         browser = await puppeteer.launch({
-            browser: browserName
+            browser: browserName === 'chromium' ? 'chrome' : browserName
         });
         return { success: true, ranInstaller: false };
     }
@@ -63,12 +64,12 @@ export async function testInstalledBrowser(browserName, installIfUnavailable = f
     }
 }
 /**
- * Tests if the Puppeteer Chrome browser is installed.
+ * Tests if the Puppeteer Chrome (or Chromium) browser is installed.
  * @param installIfUnavailable - Whether to install the browser if it's not available.
  * @returns A promise that resolves to an object containing the installation status and whether the installer was run.
  */
 export async function testInstalledChromeBrowser(installIfUnavailable = false) {
-    return await testInstalledBrowser('chrome', installIfUnavailable);
+    return await testInstalledBrowser(chromeName, installIfUnavailable);
 }
 /**
  * Tests if the Puppeteer Firefox browser is installed.

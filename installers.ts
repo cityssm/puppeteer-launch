@@ -5,6 +5,8 @@ import { exec } from 'node:child_process'
 
 import puppeteer from 'puppeteer'
 
+import { chromeName } from './user.js'
+
 export const INSTALLER_TIMEOUT = 5 * 60 * 1000
 
 /**
@@ -14,7 +16,7 @@ export const INSTALLER_TIMEOUT = 5 * 60 * 1000
  * @returns A promise that resolves when the installation is complete.
  */
 export async function installBrowser(
-  browser: 'chrome' | 'firefox'
+  browser: 'chrome' | 'chromium' | 'firefox'
 ): Promise<void> {
   // eslint-disable-next-line promise/avoid-new, @typescript-eslint/return-await
   return new Promise((resolve, reject) => {
@@ -36,7 +38,7 @@ export async function installBrowser(
  * Installs the Chrome browser for Puppeteer.
  */
 export async function installChromeBrowser(): Promise<void> {
-  await installBrowser('chrome')
+  await installBrowser(chromeName)
 }
 
 /**
@@ -61,14 +63,14 @@ export interface TestInstalledBrowserResult {
  * @returns An object containing the installation status and whether the installer was run.
  */
 export async function testInstalledBrowser(
-  browserName: 'chrome' | 'firefox',
+  browserName: 'chrome' | 'chromium' | 'firefox',
   installIfUnavailable = false
 ): Promise<TestInstalledBrowserResult> {
   let browser: puppeteer.Browser | undefined
 
   try {
     browser = await puppeteer.launch({
-      browser: browserName
+      browser: browserName === 'chromium' ? 'chrome' : browserName
     })
 
     return { success: true, ranInstaller: false }
@@ -89,14 +91,14 @@ export async function testInstalledBrowser(
 }
 
 /**
- * Tests if the Puppeteer Chrome browser is installed.
+ * Tests if the Puppeteer Chrome (or Chromium) browser is installed.
  * @param installIfUnavailable - Whether to install the browser if it's not available.
  * @returns A promise that resolves to an object containing the installation status and whether the installer was run.
  */
 export async function testInstalledChromeBrowser(
   installIfUnavailable = false
 ): Promise<TestInstalledBrowserResult> {
-  return await testInstalledBrowser('chrome', installIfUnavailable)
+  return await testInstalledBrowser(chromeName, installIfUnavailable)
 }
 
 /**

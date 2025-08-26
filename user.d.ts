@@ -1,3 +1,4 @@
+export declare const chromeName: string;
 /**
  * Gets the path to the user's Chrome browser.
  * @returns The path to the user's Chrome browser, or undefined if not found.
