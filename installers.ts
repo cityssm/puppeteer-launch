@@ -3,9 +3,14 @@
 
 import { exec } from 'node:child_process'
 
+import Debug from 'debug'
 import puppeteer from 'puppeteer'
 
+import { DEBUG_NAMESPACE } from './debug.config.js'
+
 export const INSTALLER_TIMEOUT = 5 * 60 * 1000
+
+const debug = Debug(`${DEBUG_NAMESPACE}:installers`)
 
 /**
  * Installs the specified browser for Puppeteer.
@@ -21,7 +26,16 @@ export async function installBrowser(
     exec(
       `npx puppeteer browsers install ${browser}`,
       { timeout: INSTALLER_TIMEOUT },
-      (error) => {
+      (error, stdout, stderr) => {
+
+        if (stdout !== '') {
+        debug('stdout: %s', stdout)
+        }
+
+        if (stderr !== '') {
+          debug('stderr: %s', stderr)
+        }
+
         if (error) {
           reject(error)
         } else {

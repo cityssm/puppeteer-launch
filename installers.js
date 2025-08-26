@@ -1,8 +1,11 @@
 // eslint-disable-next-line @eslint-community/eslint-comments/disable-enable-pair
 /* eslint-disable security/detect-child-process, sonarjs/os-command */
 import { exec } from 'node:child_process';
+import Debug from 'debug';
 import puppeteer from 'puppeteer';
+import { DEBUG_NAMESPACE } from './debug.config.js';
 export const INSTALLER_TIMEOUT = 5 * 60 * 1000;
+const debug = Debug(`${DEBUG_NAMESPACE}:installers`);
 /**
  * Installs the specified browser for Puppeteer.
  * Times out after 5 minutes.
@@ -12,7 +15,13 @@ export const INSTALLER_TIMEOUT = 5 * 60 * 1000;
 export async function installBrowser(browser) {
     // eslint-disable-next-line promise/avoid-new, @typescript-eslint/return-await
     return new Promise((resolve, reject) => {
-        exec(`npx puppeteer browsers install ${browser}`, { timeout: INSTALLER_TIMEOUT }, (error) => {
+        exec(`npx puppeteer browsers install ${browser}`, { timeout: INSTALLER_TIMEOUT }, (error, stdout, stderr) => {
+            if (stdout !== '') {
+                debug('stdout: %s', stdout);
+            }
+            if (stderr !== '') {
+                debug('stderr: %s', stderr);
+            }
             if (error) {
                 reject(error);
             }
