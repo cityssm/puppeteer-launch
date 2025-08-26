@@ -53,7 +53,8 @@ export async function testInstalledBrowser(browserName, installIfUnavailable = f
     let browser;
     try {
         browser = await puppeteer.launch({
-            browser: browserName
+            browser: browserName,
+            args: ['--no-sandbox']
         });
         return { success: true, ranInstaller: false };
     }

@@ -81,7 +81,8 @@ export async function testInstalledBrowser(
 
   try {
     browser = await puppeteer.launch({
-      browser: browserName
+      browser: browserName,
+      args: ['--no-sandbox']
     })
 
     return { success: true, ranInstaller: false }
