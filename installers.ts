@@ -5,8 +5,6 @@ import { exec } from 'node:child_process'
 
 import puppeteer from 'puppeteer'
 
-import { chromeName } from './user.js'
-
 export const INSTALLER_TIMEOUT = 5 * 60 * 1000
 
 /**
@@ -16,7 +14,7 @@ export const INSTALLER_TIMEOUT = 5 * 60 * 1000
  * @returns A promise that resolves when the installation is complete.
  */
 export async function installBrowser(
-  browser: 'chrome' | 'chromium' | 'firefox'
+  browser: 'chrome' | 'firefox'
 ): Promise<void> {
   // eslint-disable-next-line promise/avoid-new, @typescript-eslint/return-await
   return new Promise((resolve, reject) => {
@@ -38,7 +36,7 @@ export async function installBrowser(
  * Installs the Chrome browser for Puppeteer.
  */
 export async function installChromeBrowser(): Promise<void> {
-  await installBrowser(chromeName)
+  await installBrowser('chrome')
 }
 
 /**
@@ -63,14 +61,14 @@ export interface TestInstalledBrowserResult {
  * @returns An object containing the installation status and whether the installer was run.
  */
 export async function testInstalledBrowser(
-  browserName: 'chrome' | 'chromium' | 'firefox',
+  browserName: 'chrome' | 'firefox',
   installIfUnavailable = false
 ): Promise<TestInstalledBrowserResult> {
   let browser: puppeteer.Browser | undefined
 
   try {
     browser = await puppeteer.launch({
-      browser: browserName === 'chromium' ? 'chrome' : browserName
+      browser: browserName
     })
 
     return { success: true, ranInstaller: false }
@@ -98,7 +96,7 @@ export async function testInstalledBrowser(
 export async function testInstalledChromeBrowser(
   installIfUnavailable = false
 ): Promise<TestInstalledBrowserResult> {
-  return await testInstalledBrowser(chromeName, installIfUnavailable)
+  return await testInstalledBrowser('chrome', installIfUnavailable)
 }
 
 /**

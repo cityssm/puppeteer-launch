@@ -5,7 +5,7 @@ export declare const INSTALLER_TIMEOUT: number;
  * @param browser - The browser to install ('chrome' or 'firefox').
  * @returns A promise that resolves when the installation is complete.
  */
-export declare function installBrowser(browser: 'chrome' | 'chromium' | 'firefox'): Promise<void>;
+export declare function installBrowser(browser: 'chrome' | 'firefox'): Promise<void>;
 /**
  * Installs the Chrome browser for Puppeteer.
  */
@@ -26,7 +26,7 @@ export interface TestInstalledBrowserResult {
  * @param installIfUnavailable - Whether to install the browser if it's not available.
  * @returns An object containing the installation status and whether the installer was run.
  */
-export declare function testInstalledBrowser(browserName: 'chrome' | 'chromium' | 'firefox', installIfUnavailable?: boolean): Promise<TestInstalledBrowserResult>;
+export declare function testInstalledBrowser(browserName: 'chrome' | 'firefox', installIfUnavailable?: boolean): Promise<TestInstalledBrowserResult>;
 /**
  * Tests if the Puppeteer Chrome (or Chromium) browser is installed.
  * @param installIfUnavailable - Whether to install the browser if it's not available.
