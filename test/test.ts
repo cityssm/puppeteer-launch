@@ -79,11 +79,17 @@ await describe('puppeteer-launch', async () => {
 
   await it('Tests and installs Chrome browser if unavailable', async () => {
     const isInstalled = await testInstalledChromeBrowser(true)
+
+    debug(isInstalled)
+
     assert.ok(isInstalled.success)
   })
 
   await it('Tests and installs Firefox browser if unavailable', async () => {
     const isInstalled = await testInstalledFirefoxBrowser(true)
+
+    debug(isInstalled)
+
     assert.ok(isInstalled.success)
   })
 })
