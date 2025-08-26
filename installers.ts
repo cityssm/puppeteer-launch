@@ -27,9 +27,8 @@ export async function installBrowser(
       `npx puppeteer browsers install ${browser}`,
       { timeout: INSTALLER_TIMEOUT },
       (error, stdout, stderr) => {
-
         if (stdout !== '') {
-        debug('stdout: %s', stdout)
+          debug('stdout: %s', stdout)
         }
 
         if (stderr !== '') {
