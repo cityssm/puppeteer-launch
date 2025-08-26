@@ -8,9 +8,6 @@ let browsersLoaded = false
 let chromeBrowsers: InstalledWebBrowser[] = []
 let firefoxBrowsers: InstalledWebBrowser[] = []
 
-/* If Linux, set to  'chromium', otherwise 'chrome' */
-export const chromeName = process.platform === 'linux' ? 'chromium' : 'chrome'
-
 async function loadUserBrowsers(): Promise<void> {
   if (!browsersLoaded) {
     /*

@@ -57,7 +57,7 @@ export async function testInstalledBrowser(browserName, installIfUnavailable = f
         });
         return { success: true, ranInstaller: false };
     }
-    catch {
+    catch (error) {
         if (installIfUnavailable) {
             await installBrowser(browserName);
             return {
@@ -65,6 +65,7 @@ export async function testInstalledBrowser(browserName, installIfUnavailable = f
                 ranInstaller: true
             };
         }
+        debug('Browser not installed: %O', error);
         return { success: false, ranInstaller: false };
     }
     finally {

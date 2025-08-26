@@ -2,8 +2,6 @@ import { chromeWebBrowserTypes, getInstalledWebBrowsers } from '@cityssm/web-bro
 let browsersLoaded = false;
 let chromeBrowsers = [];
 let firefoxBrowsers = [];
-/* If Linux, set to  'chromium', otherwise 'chrome' */
-export const chromeName = process.platform === 'linux' ? 'chromium' : 'chrome';
 async function loadUserBrowsers() {
     if (!browsersLoaded) {
         /*
