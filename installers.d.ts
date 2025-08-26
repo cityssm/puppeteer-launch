@@ -1,5 +1,7 @@
+export declare const INSTALLER_TIMEOUT: number;
 /**
  * Installs the specified browser for Puppeteer.
+ * Times out after 5 minutes.
  * @param browser - The browser to install ('chrome' or 'firefox').
  * @returns A promise that resolves when the installation is complete.
  */

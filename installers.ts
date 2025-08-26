@@ -5,8 +5,11 @@ import { exec } from 'node:child_process'
 
 import puppeteer from 'puppeteer'
 
+export const INSTALLER_TIMEOUT = 5 * 60 * 1000
+
 /**
  * Installs the specified browser for Puppeteer.
+ * Times out after 5 minutes.
  * @param browser - The browser to install ('chrome' or 'firefox').
  * @returns A promise that resolves when the installation is complete.
  */
@@ -15,13 +18,17 @@ export async function installBrowser(
 ): Promise<void> {
   // eslint-disable-next-line promise/avoid-new, @typescript-eslint/return-await
   return new Promise((resolve, reject) => {
-    exec(`npx puppeteer browsers install ${browser}`, (error) => {
-      if (error) {
-        reject(error)
-      } else {
-        resolve()
+    exec(
+      `npx puppeteer browsers install ${browser}`,
+      { timeout: INSTALLER_TIMEOUT },
+      (error) => {
+        if (error) {
+          reject(error)
+        } else {
+          resolve()
+        }
       }
-    })
+    )
   })
 }
 
@@ -72,7 +79,7 @@ export async function testInstalledBrowser(
       return {
         ...(await testInstalledBrowser(browserName, false)),
         ranInstaller: true
-      }
+      } satisfies TestInstalledBrowserResult
     }
 
     return { success: false, ranInstaller: false }
