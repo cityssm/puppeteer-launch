@@ -54,6 +54,7 @@ jobs:
         run: |
           npm ci
           npm install -g c8
+          npm run install:firefox
 
       - name: Run Coverage Testing
         run: npm run coverage
@@ -70,7 +71,7 @@ jobs:
         run: |
           npm ci
           npm install -g c8
-          npx puppeteer browsers install firefox
+          npm run install:firefox
 
       - name: Run Coverage Testing
         run: npm run coverage
