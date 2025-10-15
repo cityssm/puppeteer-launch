@@ -26,7 +26,9 @@
   },
   "scripts": {
     "coverage": "c8 --reporter=lcov --reporter=text --reporter=text-summary node --test",
-    "postinstall": "node ./postinstall.js",
+    "postinstall": "node ./installChrome.js",
+    "install:chrome": "node ./installChrome.js",
+    "install:firefox": "node ./installFirefox.js",
     "test": "node --test"
   },
   "dependencies": {
