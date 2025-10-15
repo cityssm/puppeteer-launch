@@ -26,17 +26,19 @@
   },
   "scripts": {
     "coverage": "c8 --reporter=lcov --reporter=text --reporter=text-summary node --test",
-    "postinstall": "npx --silent puppeteer browsers install || exit 0",
+    "postinstall": "node ./installChrome.js",
+    "install:chrome": "node ./installChrome.js",
+    "install:firefox": "node ./installFirefox.js",
     "test": "node --test"
   },
   "dependencies": {
-    "@cityssm/web-browser-info": "^1.0.0",
-    "debug": "^4.4.1",
-    "puppeteer": "^24.16.1"
+    "@cityssm/web-browser-info": "^1.0.1",
+    "debug": "^4.4.3",
+    "puppeteer": "^24.25.0"
   },
   "devDependencies": {
     "@types/debug": "^4.1.12",
-    "eslint-config-cityssm": "^27.1.0",
+    "eslint-config-cityssm": "^33.2.0",
     "prettier-config-cityssm": "^1.0.0"
   },
   "engines": {
