@@ -89,5 +89,5 @@ export default async function launch(options = {}) {
         throw error;
     }
 }
-export * as puppeteer from 'puppeteer';
 export { installBrowser, installChromeBrowser, installFirefoxBrowser, testInstalledBrowser, testInstalledChromeBrowser, testInstalledFirefoxBrowser } from './installers.js';
+export * as puppeteer from 'puppeteer';

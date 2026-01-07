@@ -10,5 +10,5 @@ export declare const browserOrderDefault: RetryBrowser[];
 export default function launch(options?: LaunchOptions & {
     browserOrder?: RetryBrowser[];
 }): Promise<Browser>;
-export * as puppeteer from 'puppeteer';
 export { installBrowser, installChromeBrowser, installFirefoxBrowser, testInstalledBrowser, testInstalledChromeBrowser, testInstalledFirefoxBrowser } from './installers.js';
+export * as puppeteer from 'puppeteer';
