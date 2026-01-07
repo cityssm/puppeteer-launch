@@ -1,6 +1,6 @@
 {
   "name": "@cityssm/puppeteer-launch",
-  "version": "5.2.0",
+  "version": "5.2.1",
   "description": "Launch Puppeteer, falling back to system browsers when the cached ones aren't working or aren't available.",
   "keywords": [
     "chrome",
