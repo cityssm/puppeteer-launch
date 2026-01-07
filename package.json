@@ -32,13 +32,13 @@
     "test": "node --test"
   },
   "dependencies": {
-    "@cityssm/web-browser-info": "^1.0.1",
+    "@cityssm/web-browser-info": "^1.1.0",
     "debug": "^4.4.3",
-    "puppeteer": "^24.25.0"
+    "puppeteer": "^24.34.0"
   },
   "devDependencies": {
     "@types/debug": "^4.1.12",
-    "eslint-config-cityssm": "^33.2.0",
+    "eslint-config-cityssm": "^36.1.0",
     "prettier-config-cityssm": "^1.0.0"
   },
   "engines": {
