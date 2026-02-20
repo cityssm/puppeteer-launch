@@ -1,6 +1,6 @@
 {
   "name": "@cityssm/puppeteer-launch",
-  "version": "5.2.1",
+  "version": "6.0.0",
   "description": "Launch Puppeteer, falling back to system browsers when the cached ones aren't working or aren't available.",
   "keywords": [
     "chrome",
@@ -32,16 +32,19 @@
     "test": "node --test"
   },
   "dependencies": {
-    "@cityssm/web-browser-info": "^1.1.0",
+    "@cityssm/has-package": "^1.0.0",
     "debug": "^4.4.3",
     "puppeteer": "^24.34.0"
   },
   "devDependencies": {
     "@types/debug": "^4.1.12",
-    "eslint-config-cityssm": "^36.1.0",
-    "prettier-config-cityssm": "^1.0.0"
+    "eslint-config-cityssm": "^38.2.1",
+    "prettier-config-cityssm": "^2.1.1"
   },
   "engines": {
     "node": ">=18.0.0"
+  },
+  "optionalDependencies": {
+    "@cityssm/web-browser-info": "^1.1.0"
   }
 }

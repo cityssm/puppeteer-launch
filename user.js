@@ -1,8 +1,12 @@
-import { chromeWebBrowserTypes, getInstalledWebBrowsers } from '@cityssm/web-browser-info';
+import hasPackage from '@cityssm/has-package';
 let browsersLoaded = false;
 let chromeBrowsers = [];
 let firefoxBrowsers = [];
 async function loadUserBrowsers() {
+    if (!await hasPackage('@cityssm/web-browser-info')) {
+        return;
+    }
+    const { chromeWebBrowserTypes, getInstalledWebBrowsers } = await import('@cityssm/web-browser-info');
     if (!browsersLoaded) {
         /*
          * Load Chrome first
