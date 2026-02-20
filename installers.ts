@@ -24,7 +24,7 @@ export async function installBrowser(
   // eslint-disable-next-line promise/avoid-new, @typescript-eslint/return-await
   return new Promise((resolve, reject) => {
     exec(
-      `npx puppeteer browsers install ${browser}`,
+      `npx puppeteer install ${browser}@stable`,
       { timeout: INSTALLER_TIMEOUT },
       (error, stdout, stderr) => {
         if (stdout !== '') {
