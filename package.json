@@ -34,11 +34,11 @@
   "dependencies": {
     "@cityssm/has-package": "^1.0.0",
     "debug": "^4.4.3",
-    "puppeteer": "^24.37.5"
+    "puppeteer": "^24.39.0"
   },
   "devDependencies": {
     "@types/debug": "^4.1.12",
-    "eslint-config-cityssm": "^38.2.1",
+    "eslint-config-cityssm": "^38.4.1",
     "prettier-config-cityssm": "^2.1.1"
   },
   "engines": {
