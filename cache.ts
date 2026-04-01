@@ -29,9 +29,16 @@ let installedBrowsers: InstalledBrowser[] = []
 export async function refreshInstalledBrowserCache(): Promise<
   InstalledBrowser[]
 > {
-  installedBrowsers = await getInstalledBrowsers({
+  let tempInstalledBrowsers = await getInstalledBrowsers({
     cacheDir: PUPPETEER_CACHE_DIR
   })
+
+  // Filter out browsers with missing executable paths
+  tempInstalledBrowsers = tempInstalledBrowsers.filter((browser) =>
+    fs.existsSync(browser.executablePath)
+  )
+
+  installedBrowsers = tempInstalledBrowsers
 
   debug('Refreshed installed browser cache: %O', installedBrowsers)
 
@@ -52,9 +59,7 @@ export async function getCachedChromeBrowser(
   }
 
   const chromeBrowser = installedBrowsers.findLast(
-    (browser) =>
-      browser.browser === Browser.CHROME &&
-      fs.existsSync(browser.executablePath)
+    (browser) => browser.browser === Browser.CHROME
   )
 
   if (chromeBrowser === undefined && installIfMissing) {
@@ -80,9 +85,7 @@ export async function getCachedFirefoxBrowser(
   }
 
   const firefoxBrowser = installedBrowsers.findLast(
-    (browser) =>
-      browser.browser === Browser.FIREFOX &&
-      fs.existsSync(browser.executablePath)
+    (browser) => browser.browser === Browser.FIREFOX
   )
 
   if (firefoxBrowser === undefined && installIfMissing) {

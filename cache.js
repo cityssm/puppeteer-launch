@@ -13,9 +13,12 @@ let installedBrowsers = [];
  * @returns A promise that resolves to the updated list of installed browsers.
  */
 export async function refreshInstalledBrowserCache() {
-    installedBrowsers = await getInstalledBrowsers({
+    let tempInstalledBrowsers = await getInstalledBrowsers({
         cacheDir: PUPPETEER_CACHE_DIR
     });
+    // Filter out browsers with missing executable paths
+    tempInstalledBrowsers = tempInstalledBrowsers.filter((browser) => fs.existsSync(browser.executablePath));
+    installedBrowsers = tempInstalledBrowsers;
     debug('Refreshed installed browser cache: %O', installedBrowsers);
     return installedBrowsers;
 }
@@ -29,8 +32,7 @@ export async function getCachedChromeBrowser(installIfMissing = false) {
     if (installedBrowsers.length === 0) {
         await refreshInstalledBrowserCache();
     }
-    const chromeBrowser = installedBrowsers.findLast((browser) => browser.browser === Browser.CHROME &&
-        fs.existsSync(browser.executablePath));
+    const chromeBrowser = installedBrowsers.findLast((browser) => browser.browser === Browser.CHROME);
     if (chromeBrowser === undefined && installIfMissing) {
         await installChromeBrowser();
         await refreshInstalledBrowserCache();
@@ -48,8 +50,7 @@ export async function getCachedFirefoxBrowser(installIfMissing = false) {
     if (installedBrowsers.length === 0) {
         await refreshInstalledBrowserCache();
     }
-    const firefoxBrowser = installedBrowsers.findLast((browser) => browser.browser === Browser.FIREFOX &&
-        fs.existsSync(browser.executablePath));
+    const firefoxBrowser = installedBrowsers.findLast((browser) => browser.browser === Browser.FIREFOX);
     if (firefoxBrowser === undefined && installIfMissing) {
         await installFirefoxBrowser();
         await refreshInstalledBrowserCache();
