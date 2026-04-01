@@ -44,6 +44,7 @@
   },
   "dependencies": {
     "@cityssm/has-package": "^1.0.0",
+    "@puppeteer/browsers": "^2.13.0",
     "debug": "^4.4.3",
     "puppeteer": "^24.40.0"
   },

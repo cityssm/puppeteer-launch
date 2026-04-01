@@ -1,10 +1,18 @@
-/* eslint-disable security/detect-child-process, sonarjs/os-command */
-
-import { exec } from 'node:child_process'
-
+import {
+  Browser,
+  BrowserPlatform,
+  detectBrowserPlatform,
+  install,
+  resolveBuildId
+} from '@puppeteer/browsers'
 import Debug from 'debug'
 import puppeteer from 'puppeteer'
 
+import {
+  getCachedBrowser,
+  PUPPETEER_CACHE_DIR,
+  refreshInstalledBrowserCache
+} from './cache.js'
 import { DEBUG_NAMESPACE } from './debug.config.js'
 
 export const INSTALLER_TIMEOUT = 5 * 60 * 1000
@@ -20,28 +28,23 @@ const debug = Debug(`${DEBUG_NAMESPACE}:installers`)
 export async function installBrowser(
   browser: 'chrome' | 'firefox'
 ): Promise<void> {
-  // eslint-disable-next-line promise/avoid-new, @typescript-eslint/return-await
-  return new Promise((resolve, reject) => {
-    exec(
-      `npx puppeteer install ${browser}`,
-      { timeout: INSTALLER_TIMEOUT },
-      (error, stdout, stderr) => {
-        if (stdout !== '') {
-          debug('stdout: %s', stdout)
-        }
+  const enumBrowser = browser === 'chrome' ? Browser.CHROME : Browser.FIREFOX
+  const platform = detectBrowserPlatform() ?? BrowserPlatform.LINUX
+  const buildId = await resolveBuildId(enumBrowser, platform, 'stable')
 
-        if (stderr !== '') {
-          debug('stderr: %s', stderr)
-        }
+  try {
+    await install({
+      browser: enumBrowser,
+      buildId,
+      cacheDir: PUPPETEER_CACHE_DIR,
+      unpack: true
+    })
 
-        if (error) {
-          reject(error)
-        } else {
-          resolve()
-        }
-      }
-    )
-  })
+    await refreshInstalledBrowserCache()
+  } catch (error) {
+    debug('Error installing browser: %O', error)
+    throw error
+  }
 }
 
 /**
@@ -78,9 +81,12 @@ export async function testInstalledBrowser(
 ): Promise<TestInstalledBrowserResult> {
   let browser: puppeteer.Browser | undefined
 
+  const installedBrowser = await getCachedBrowser(browserName)
+
   try {
     browser = await puppeteer.launch({
       browser: browserName,
+      executablePath: installedBrowser?.executablePath,
       args: ['--no-sandbox']
     })
 

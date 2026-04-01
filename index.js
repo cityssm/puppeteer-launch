@@ -1,5 +1,6 @@
 import Debug from 'debug';
 import { launch as puppeteerLaunch } from 'puppeteer';
+import { getCachedBrowser } from './cache.js';
 import { DEBUG_NAMESPACE } from './debug.config.js';
 import { getUserChromePath, getUserFirefoxPath } from './user.js';
 const debug = Debug(`${DEBUG_NAMESPACE}:index`);
@@ -61,6 +62,8 @@ export default async function launch(options = {}) {
         }
         else {
             puppeteerOptions.browser = browserToLoad;
+            const installedBrowser = await getCachedBrowser(browserToLoad === 'chrome' ? 'chrome' : 'firefox', true);
+            puppeteerOptions.executablePath = installedBrowser?.executablePath;
         }
     }
     /*
