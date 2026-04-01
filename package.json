@@ -1,6 +1,6 @@
 {
   "name": "@cityssm/puppeteer-launch",
-  "version": "7.0.0",
+  "version": "7.0.1",
   "description": "Launch Puppeteer, falling back to system browsers when the cached ones aren't working or aren't available.",
   "keywords": [
     "chrome",
@@ -32,10 +32,11 @@
   "files": [
     "cache.*",
     "debug.config.*",
+    "index.*",
     "installChrome.*",
     "installers.*",
     "installFirefox.*",
-    "index.*"
+    "user.*"
   ],
   "scripts": {
     "coverage": "c8 --reporter=lcov --reporter=text --reporter=text-summary node --test",
