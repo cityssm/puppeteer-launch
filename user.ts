@@ -34,6 +34,7 @@ async function loadUserBrowsers(): Promise<void> {
 
     firefoxBrowsers = fallbackFirefoxBrowsers
 
+    // eslint-disable-next-line require-atomic-updates
     browsersLoaded = true
   }
 }

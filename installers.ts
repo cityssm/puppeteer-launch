@@ -1,4 +1,3 @@
-// eslint-disable-next-line @eslint-community/eslint-comments/disable-enable-pair
 /* eslint-disable security/detect-child-process, sonarjs/os-command */
 
 import { exec } from 'node:child_process'
@@ -85,7 +84,7 @@ export async function testInstalledBrowser(
       args: ['--no-sandbox']
     })
 
-    return { success: true, ranInstaller: false }
+    return { ranInstaller: false, success: true }
   } catch (error) {
     if (installIfUnavailable) {
       await installBrowser(browserName)
@@ -98,7 +97,7 @@ export async function testInstalledBrowser(
 
     debug('Browser not installed: %O', error)
 
-    return { success: false, ranInstaller: false }
+    return { ranInstaller: false, success: false }
   } finally {
     await browser?.close()
   }

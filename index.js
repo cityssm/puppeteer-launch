@@ -21,7 +21,7 @@ export default async function launch(options = {}) {
      */
     const puppeteerOptions = {
         headless: true,
-        timeout: 60_000,
+        timeout: 60000,
         ...options
     };
     /*

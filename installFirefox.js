@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+/* eslint-disable no-console */
 import { installFirefoxBrowser } from './installers.js';
 try {
     await installFirefoxBrowser();

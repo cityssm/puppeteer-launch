@@ -18,6 +18,7 @@ async function loadUserBrowsers() {
          */
         const fallbackFirefoxBrowsers = await getInstalledWebBrowsers('firefox');
         firefoxBrowsers = fallbackFirefoxBrowsers;
+        // eslint-disable-next-line require-atomic-updates
         browsersLoaded = true;
     }
 }

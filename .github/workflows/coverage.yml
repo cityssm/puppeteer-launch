@@ -21,7 +21,7 @@ jobs:
         run: |
           npm ci
           npm install -g c8
-          npm run install:firefox
+          npm exec install-firefox
 
       - name: Run Coverage Testing
         run: npm run coverage
@@ -54,7 +54,7 @@ jobs:
         run: |
           npm ci
           npm install -g c8
-          npm run install:firefox
+          npm exec install-firefox
 
       - name: Run Coverage Testing
         run: npm run coverage
@@ -71,7 +71,7 @@ jobs:
         run: |
           npm ci
           npm install -g c8
-          npm run install:firefox
+          npm exec install-firefox
 
       - name: Run Coverage Testing
         run: npm run coverage
