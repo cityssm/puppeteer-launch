@@ -92,5 +92,6 @@ export default async function launch(options = {}) {
         throw error;
     }
 }
+export { getCachedBrowser, getCachedChromeBrowser, getCachedFirefoxBrowser, refreshInstalledBrowserCache } from './cache.js';
 export { installBrowser, installChromeBrowser, installFirefoxBrowser, testInstalledBrowser, testInstalledChromeBrowser, testInstalledFirefoxBrowser } from './installers.js';
 export * as puppeteer from 'puppeteer';

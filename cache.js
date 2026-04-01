@@ -1,3 +1,4 @@
+import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { Browser, getInstalledBrowsers } from '@puppeteer/browsers';
@@ -28,7 +29,8 @@ export async function getCachedChromeBrowser(installIfMissing = false) {
     if (installedBrowsers.length === 0) {
         await refreshInstalledBrowserCache();
     }
-    const chromeBrowser = installedBrowsers.findLast((browser) => browser.browser === Browser.CHROME);
+    const chromeBrowser = installedBrowsers.findLast((browser) => browser.browser === Browser.CHROME &&
+        fs.existsSync(browser.executablePath));
     if (chromeBrowser === undefined && installIfMissing) {
         await installChromeBrowser();
         await refreshInstalledBrowserCache();
@@ -46,7 +48,8 @@ export async function getCachedFirefoxBrowser(installIfMissing = false) {
     if (installedBrowsers.length === 0) {
         await refreshInstalledBrowserCache();
     }
-    const firefoxBrowser = installedBrowsers.findLast((browser) => browser.browser === Browser.FIREFOX);
+    const firefoxBrowser = installedBrowsers.findLast((browser) => browser.browser === Browser.FIREFOX &&
+        fs.existsSync(browser.executablePath));
     if (firefoxBrowser === undefined && installIfMissing) {
         await installFirefoxBrowser();
         await refreshInstalledBrowserCache();
@@ -62,7 +65,7 @@ export async function getCachedFirefoxBrowser(installIfMissing = false) {
  * @returns A promise that resolves to the cached browser, or undefined if not found and not installed.
  */
 export async function getCachedBrowser(browser, installIfMissing = false) {
-    return await (browser === 'chrome'
-        ? getCachedChromeBrowser(installIfMissing)
-        : getCachedFirefoxBrowser(installIfMissing));
+    return browser === 'chrome'
+        ? await getCachedChromeBrowser(installIfMissing)
+        : await getCachedFirefoxBrowser(installIfMissing);
 }

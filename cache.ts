@@ -1,3 +1,4 @@
+import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 
@@ -51,7 +52,9 @@ export async function getCachedChromeBrowser(
   }
 
   const chromeBrowser = installedBrowsers.findLast(
-    (browser) => browser.browser === Browser.CHROME
+    (browser) =>
+      browser.browser === Browser.CHROME &&
+      fs.existsSync(browser.executablePath)
   )
 
   if (chromeBrowser === undefined && installIfMissing) {
@@ -77,7 +80,9 @@ export async function getCachedFirefoxBrowser(
   }
 
   const firefoxBrowser = installedBrowsers.findLast(
-    (browser) => browser.browser === Browser.FIREFOX
+    (browser) =>
+      browser.browser === Browser.FIREFOX &&
+      fs.existsSync(browser.executablePath)
   )
 
   if (firefoxBrowser === undefined && installIfMissing) {
@@ -100,7 +105,7 @@ export async function getCachedBrowser(
   browser: 'chrome' | 'firefox',
   installIfMissing = false
 ): Promise<InstalledBrowser | undefined> {
-  return await (browser === 'chrome'
-    ? getCachedChromeBrowser(installIfMissing)
-    : getCachedFirefoxBrowser(installIfMissing))
+  return browser === 'chrome'
+    ? await getCachedChromeBrowser(installIfMissing)
+    : await getCachedFirefoxBrowser(installIfMissing)
 }

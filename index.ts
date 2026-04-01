@@ -124,6 +124,13 @@ export default async function launch(
 }
 
 export {
+  getCachedBrowser,
+  getCachedChromeBrowser,
+  getCachedFirefoxBrowser,
+  refreshInstalledBrowserCache
+} from './cache.js'
+
+export {
   installBrowser,
   installChromeBrowser,
   installFirefoxBrowser,
