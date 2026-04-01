@@ -17,7 +17,8 @@ export async function refreshInstalledBrowserCache() {
         cacheDir: PUPPETEER_CACHE_DIR
     });
     // Filter out browsers with missing executable paths
-    tempInstalledBrowsers = tempInstalledBrowsers.filter((browser) => fs.existsSync(browser.executablePath));
+    tempInstalledBrowsers = tempInstalledBrowsers.filter((browser) => fs.existsSync(browser.executablePath) &&
+        fs.statSync(browser.executablePath).isFile());
     installedBrowsers = tempInstalledBrowsers;
     debug('Refreshed installed browser cache: %O', installedBrowsers);
     return installedBrowsers;

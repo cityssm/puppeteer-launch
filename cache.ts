@@ -34,8 +34,10 @@ export async function refreshInstalledBrowserCache(): Promise<
   })
 
   // Filter out browsers with missing executable paths
-  tempInstalledBrowsers = tempInstalledBrowsers.filter((browser) =>
-    fs.existsSync(browser.executablePath)
+  tempInstalledBrowsers = tempInstalledBrowsers.filter(
+    (browser) =>
+      fs.existsSync(browser.executablePath) &&
+      fs.statSync(browser.executablePath).isFile()
   )
 
   installedBrowsers = tempInstalledBrowsers
