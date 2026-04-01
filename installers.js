@@ -26,6 +26,11 @@ export async function installBrowser(browser) {
     }
     catch (error) {
         debug('Error installing browser: %O', error);
+        if (error instanceof Error &&
+            error.message.includes('EEXIST: file already exists')) {
+            await refreshInstalledBrowserCache();
+            return;
+        }
         throw error;
     }
 }
