@@ -30,6 +30,7 @@
     "install-firefox": "./installFirefox.js"
   },
   "files": [
+    "cache.*",
     "debug.config.*",
     "installChrome.*",
     "installers.*",
