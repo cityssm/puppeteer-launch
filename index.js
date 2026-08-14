@@ -22,7 +22,7 @@ export default async function launch(options = {}) {
      */
     const puppeteerOptions = {
         headless: true,
-        timeout: 60000,
+        timeout: 60_000,
         ...options
     };
     /*

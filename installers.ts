@@ -6,7 +6,7 @@ import {
   resolveBuildId
 } from '@puppeteer/browsers'
 import Debug from 'debug'
-import puppeteer from 'puppeteer'
+import puppeteer, { type Browser as PuppeteerBrowser } from 'puppeteer'
 
 import {
   getCachedBrowser,
@@ -88,7 +88,7 @@ export async function testInstalledBrowser(
   browserName: 'chrome' | 'firefox',
   installIfUnavailable = false
 ): Promise<TestInstalledBrowserResult> {
-  let browser: puppeteer.Browser | undefined
+  let browser: PuppeteerBrowser | undefined
 
   const installedBrowser = await getCachedBrowser(browserName)
 

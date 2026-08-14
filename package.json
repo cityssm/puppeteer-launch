@@ -46,19 +46,25 @@
   },
   "dependencies": {
     "@cityssm/has-package": "^1.0.0",
-    "@puppeteer/browsers": "^2.13.0",
+    "@puppeteer/browsers": "^3.2.0",
     "debug": "^4.4.3",
-    "puppeteer": "^24.40.0"
+    "puppeteer": "^25.7.0"
   },
   "devDependencies": {
     "@types/debug": "^4.1.13",
-    "eslint-config-cityssm": "^39.0.0",
-    "prettier-config-cityssm": "^2.1.1"
+    "@types/node": "^26.2.0",
+    "eslint-config-cityssm": "^46.0.0",
+    "prettier-config-cityssm": "^2.1.3"
   },
   "optionalDependencies": {
     "@cityssm/web-browser-info": "^1.2.0"
   },
   "engines": {
     "node": ">=18.0.0"
+  },
+  "allowScripts": {
+    "puppeteer@25.7.0": true,
+    "registry-js@1.16.1": true,
+    "win-version-info@6.0.1": true
   }
 }
