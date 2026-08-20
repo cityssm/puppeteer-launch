@@ -14,7 +14,7 @@ await describe('puppeteer-launch', async () => {
     await it('Launches a shared default browser', async () => {
         const idleMillis = 2000; // 2 seconds
         const globalBrowser = new GlobalBrowser({
-            headless: false
+        // headless: false
         }, idleMillis); // Set idle timeout to 2 seconds for testing
         // Get a browser instance and verify it launched
         let browser;

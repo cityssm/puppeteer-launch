@@ -23,7 +23,7 @@ await describe('puppeteer-launch', async () => {
     
     const globalBrowser = new GlobalBrowser(
       {
-        headless: false
+        // headless: false
       },
       idleMillis
     ) // Set idle timeout to 2 seconds for testing
