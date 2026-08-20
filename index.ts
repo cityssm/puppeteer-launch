@@ -13,6 +13,10 @@ const debug = Debug(`${DEBUG_NAMESPACE}:index`)
 
 type RetryBrowser = 'chrome-user' | 'chrome' | 'firefox-user' | 'firefox'
 
+export type LaunchOptionsWithBrowserOrder = LaunchOptions & {
+  browserOrder?: RetryBrowser[]
+}
+
 export const browserOrderDefault = [
   'chrome',
   'firefox',
@@ -27,7 +31,7 @@ export const browserOrderDefault = [
  * @returns - A Puppeteer browser instance.
  */
 export default async function launch(
-  options: LaunchOptions & { browserOrder?: RetryBrowser[] } = {}
+  options: LaunchOptionsWithBrowserOrder = {}
 ): Promise<Browser> {
   /*
    * Set default Puppeteer options
