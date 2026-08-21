@@ -9,7 +9,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-      DEEPSOURCE_DSN: ${{ secrets.DEEPSOURCE_DSN }}
 
     steps:
       - uses: actions/checkout@v6
@@ -33,15 +32,6 @@ jobs:
           chmod +x codecov
           ./codecov -t ${CODECOV_TOKEN}
 
-      - name: DeepSource
-        if: ${{ github.event_name != 'pull_request' && env.DEEPSOURCE_DSN != '' }}
-        run: |
-          # Install deepsource CLI
-          curl https://deepsource.io/cli | sh
-
-          # From the root directory, run the report coverage command
-          ./bin/deepsource report --analyzer test-coverage --key javascript --value-file ./coverage/lcov.info
-
   Testing-on-Windows:
     runs-on: windows-latest
     steps:
@@ -60,7 +50,7 @@ jobs:
         run: npm run coverage
 
   Testing-on-MacOS:
-    runs-on: macos-15
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-node@v6
