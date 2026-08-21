@@ -3,7 +3,7 @@ let browsersLoaded = false;
 let chromeBrowsers = [];
 let firefoxBrowsers = [];
 async function loadUserBrowsers() {
-    if (!await hasPackage('@cityssm/web-browser-info')) {
+    if (!(await hasPackage('@cityssm/web-browser-info'))) {
         return;
     }
     const { chromeWebBrowserTypes, getInstalledWebBrowsers } = await import('@cityssm/web-browser-info');
@@ -11,7 +11,9 @@ async function loadUserBrowsers() {
         /*
          * Load Chrome first
          */
-        const fallbackChromeBrowsers = await getInstalledWebBrowsers(chromeWebBrowserTypes, 110);
+        const fallbackChromeBrowsers = await getInstalledWebBrowsers(chromeWebBrowserTypes, 
+        // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+        110);
         chromeBrowsers = fallbackChromeBrowsers;
         /*
          * Load Firefox

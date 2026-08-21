@@ -1,18 +1,17 @@
 import hasPackage from '@cityssm/has-package'
-import type {
-   InstalledWebBrowser
-} from '@cityssm/web-browser-info'
+import type { InstalledWebBrowser } from '@cityssm/web-browser-info'
 
 let browsersLoaded = false
 let chromeBrowsers: InstalledWebBrowser[] = []
 let firefoxBrowsers: InstalledWebBrowser[] = []
 
 async function loadUserBrowsers(): Promise<void> {
-  if (!await hasPackage('@cityssm/web-browser-info')) {
+  if (!(await hasPackage('@cityssm/web-browser-info'))) {
     return
   }
 
-  const { chromeWebBrowserTypes, getInstalledWebBrowsers } = await import('@cityssm/web-browser-info')
+  const { chromeWebBrowserTypes, getInstalledWebBrowsers } =
+    await import('@cityssm/web-browser-info')
 
   if (!browsersLoaded) {
     /*
@@ -21,6 +20,7 @@ async function loadUserBrowsers(): Promise<void> {
 
     const fallbackChromeBrowsers = await getInstalledWebBrowsers(
       chromeWebBrowserTypes,
+      // eslint-disable-next-line @typescript-eslint/no-magic-numbers
       110
     )
 

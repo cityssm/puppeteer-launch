@@ -15,6 +15,7 @@ import {
 } from './cache.js'
 import { DEBUG_NAMESPACE } from './debug.config.js'
 
+// eslint-disable-next-line @typescript-eslint/no-magic-numbers
 export const INSTALLER_TIMEOUT = 5 * 60 * 1000
 
 const debug = Debug(`${DEBUG_NAMESPACE}:installers`)

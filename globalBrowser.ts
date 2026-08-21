@@ -18,6 +18,7 @@ export class GlobalBrowser {
 
   constructor(
     browserOptions: LaunchOptionsWithBrowserOrder = {},
+    // eslint-disable-next-line @typescript-eslint/no-magic-numbers
     idleMillis = 60_000
   ) {
     this.#browserOptions = browserOptions

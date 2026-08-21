@@ -10,7 +10,9 @@ export class GlobalBrowser {
     #idleMillis;
     #idleTimeout;
     #semaphore;
-    constructor(browserOptions = {}, idleMillis = 60_000) {
+    constructor(browserOptions = {}, 
+    // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+    idleMillis = 60_000) {
         this.#browserOptions = browserOptions;
         this.#idleMillis = idleMillis;
         this.#semaphore = new Semaphore(1);
