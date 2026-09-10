@@ -22,10 +22,10 @@ export declare class GlobalBrowser {
      * Acquires the global Puppeteer browser instance.
      * If the browser is not already open, it will launch a new instance.
      * The caller must release the browser when done.
-     * @param wait - Whether to wait for the browser to become available if in use. Defaults to `true`.
+     * @param shouldWait - Whether to wait for the browser to become available if in use. Defaults to `true`.
      * @returns The global Puppeteer browser instance.
      */
-    getBrowser(wait?: boolean): Promise<Browser>;
+    getBrowser(shouldWait?: boolean): Promise<Browser>;
     /**
      * Releases the global Puppeteer browser instance.
      */

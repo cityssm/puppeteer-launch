@@ -15,27 +15,31 @@ export declare function installChromeBrowser(): Promise<void>;
  */
 export declare function installFirefoxBrowser(): Promise<void>;
 export interface TestInstalledBrowserResult {
-    /** Whether the browser is installed and able to launch */
+    /**
+     * Whether the browser is installed and able to launch
+     */
     success: boolean;
-    /** Whether the installer was run */
+    /**
+     * Whether the installer was run
+     */
     ranInstaller: boolean;
 }
 /**
  * Tests if the specified browser is installed.
  * @param browserName - The name of the browser to test ('chrome' or 'firefox').
- * @param installIfUnavailable - Whether to install the browser if it's not available.
+ * @param shouldInstallIfNotAvailable - Whether to install the browser if it's not available.
  * @returns An object containing the installation status and whether the installer was run.
  */
-export declare function testInstalledBrowser(browserName: 'chrome' | 'firefox', installIfUnavailable?: boolean): Promise<TestInstalledBrowserResult>;
+export declare function testInstalledBrowser(browserName: 'chrome' | 'firefox', shouldInstallIfNotAvailable?: boolean): Promise<TestInstalledBrowserResult>;
 /**
  * Tests if the Puppeteer Chrome (or Chromium) browser is installed.
- * @param installIfUnavailable - Whether to install the browser if it's not available.
+ * @param shouldInstallIfNotFound - Whether to install the browser if it's not available.
  * @returns A promise that resolves to an object containing the installation status and whether the installer was run.
  */
-export declare function testInstalledChromeBrowser(installIfUnavailable?: boolean): Promise<TestInstalledBrowserResult>;
+export declare function testInstalledChromeBrowser(shouldInstallIfNotFound?: boolean): Promise<TestInstalledBrowserResult>;
 /**
  * Tests if the Puppeteer Firefox browser is installed.
- * @param installIfUnavailable - Whether to install the browser if it's not available.
+ * @param shouldInstallIfNotFound - Whether to install the browser if it's not available.
  * @returns A promise that resolves to an object containing the installation status and whether the installer was run.
  */
-export declare function testInstalledFirefoxBrowser(installIfUnavailable?: boolean): Promise<TestInstalledBrowserResult>;
+export declare function testInstalledFirefoxBrowser(shouldInstallIfNotFound?: boolean): Promise<TestInstalledBrowserResult>;

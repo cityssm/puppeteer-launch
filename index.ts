@@ -40,6 +40,7 @@ export default async function launch(
   const puppeteerOptions: LaunchOptions = {
     headless: true,
     timeout: 60_000,
+    args: ['--no-sandbox'],
     ...options
   }
 

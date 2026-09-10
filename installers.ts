@@ -34,6 +34,10 @@ export async function installBrowser(
   const buildId = await resolveBuildId(enumBrowser, platform, 'stable')
 
   try {
+    if (PUPPETEER_CACHE_DIR === undefined) {
+      throw new Error('Puppeteer cache directory is not defined')
+    }
+
     await install({
       browser: enumBrowser,
       buildId,
@@ -72,22 +76,26 @@ export async function installFirefoxBrowser(): Promise<void> {
 }
 
 export interface TestInstalledBrowserResult {
-  /** Whether the browser is installed and able to launch */
+  /**
+   * Whether the browser is installed and able to launch
+   */
   success: boolean
 
-  /** Whether the installer was run */
+  /**
+   * Whether the installer was run
+   */
   ranInstaller: boolean
 }
 
 /**
  * Tests if the specified browser is installed.
  * @param browserName - The name of the browser to test ('chrome' or 'firefox').
- * @param installIfUnavailable - Whether to install the browser if it's not available.
+ * @param shouldInstallIfNotAvailable - Whether to install the browser if it's not available.
  * @returns An object containing the installation status and whether the installer was run.
  */
 export async function testInstalledBrowser(
   browserName: 'chrome' | 'firefox',
-  installIfUnavailable = false
+  shouldInstallIfNotAvailable = false
 ): Promise<TestInstalledBrowserResult> {
   let browser: PuppeteerBrowser | undefined
 
@@ -102,7 +110,7 @@ export async function testInstalledBrowser(
 
     return { ranInstaller: false, success: true }
   } catch (error) {
-    if (installIfUnavailable) {
+    if (shouldInstallIfNotAvailable) {
       await installBrowser(browserName)
 
       return {
@@ -121,22 +129,22 @@ export async function testInstalledBrowser(
 
 /**
  * Tests if the Puppeteer Chrome (or Chromium) browser is installed.
- * @param installIfUnavailable - Whether to install the browser if it's not available.
+ * @param shouldInstallIfNotFound - Whether to install the browser if it's not available.
  * @returns A promise that resolves to an object containing the installation status and whether the installer was run.
  */
 export async function testInstalledChromeBrowser(
-  installIfUnavailable = false
+  shouldInstallIfNotFound = false
 ): Promise<TestInstalledBrowserResult> {
-  return await testInstalledBrowser('chrome', installIfUnavailable)
+  return await testInstalledBrowser('chrome', shouldInstallIfNotFound)
 }
 
 /**
  * Tests if the Puppeteer Firefox browser is installed.
- * @param installIfUnavailable - Whether to install the browser if it's not available.
+ * @param shouldInstallIfNotFound - Whether to install the browser if it's not available.
  * @returns A promise that resolves to an object containing the installation status and whether the installer was run.
  */
 export async function testInstalledFirefoxBrowser(
-  installIfUnavailable = false
+  shouldInstallIfNotFound = false
 ): Promise<TestInstalledBrowserResult> {
-  return await testInstalledBrowser('firefox', installIfUnavailable)
+  return await testInstalledBrowser('firefox', shouldInstallIfNotFound)
 }

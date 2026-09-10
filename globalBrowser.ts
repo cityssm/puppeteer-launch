@@ -57,13 +57,13 @@ export class GlobalBrowser {
    * Acquires the global Puppeteer browser instance.
    * If the browser is not already open, it will launch a new instance.
    * The caller must release the browser when done.
-   * @param wait - Whether to wait for the browser to become available if in use. Defaults to `true`.
+   * @param shouldWait - Whether to wait for the browser to become available if in use. Defaults to `true`.
    * @returns The global Puppeteer browser instance.
    */
-  async getBrowser(wait = true): Promise<Browser> {
-    debug('Attempting to get a browser instance (wait=%s)', wait)
+  async getBrowser(shouldWait = true): Promise<Browser> {
+    debug('Attempting to get a browser instance (wait=%s)', shouldWait)
 
-    if (wait) {
+    if (shouldWait) {
       await this.#semaphore.acquire()
     } else if (this.#semaphore.tryAcquire() === undefined) {
       throw new Error('Browser is currently in use')
@@ -92,7 +92,8 @@ export class GlobalBrowser {
     if (this.#browser !== undefined) {
       const newPage = await this.#browser.newPage()
 
-      for (const page of await this.#browser.pages()) {
+      const openPages = await this.#browser.pages()
+      for (const page of openPages) {
         try {
           if (page !== newPage) {
             // eslint-disable-next-line no-await-in-loop
