@@ -1,12 +1,13 @@
+import { debuglog } from 'node:util'
+
 import { Sema as Semaphore } from 'async-sema'
-import Debug from 'debug'
 import exitHook from 'exit-hook'
 import type { Browser } from 'puppeteer'
 
 import { DEBUG_NAMESPACE } from './debug.config.js'
 import launch, { type LaunchOptionsWithBrowserOrder } from './index.js'
 
-const debug = Debug(`${DEBUG_NAMESPACE}:globalBrowser`)
+const debug = debuglog(`${DEBUG_NAMESPACE}:globalBrowser`)
 
 /**
  * A singleton class that manages a global Puppeteer browser instance.
@@ -47,10 +48,9 @@ export class GlobalBrowser {
   async closeBrowser(): Promise<void> {
     debug('Closing browser instance')
 
-    if (this.#browser !== undefined) {
-      await this.#browser.close()
-      this.#browser = undefined
-    }
+    await this.#browser?.close()
+
+    this.#browser = undefined
   }
 
   /**
@@ -74,6 +74,11 @@ export class GlobalBrowser {
     if (this.#idleTimeout !== undefined) {
       clearTimeout(this.#idleTimeout)
       this.#idleTimeout = undefined
+    }
+
+    if (this.#browser !== undefined && !this.#browser.connected) {
+      debug('Browser is not connected, closing it')
+      await this.closeBrowser()
     }
 
     if (this.#browser === undefined) {

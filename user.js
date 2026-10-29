@@ -1,28 +1,27 @@
+/* eslint-disable unicorn/no-top-level-assignment-in-function */
 import hasPackage from '@cityssm/has-package';
 let browsersLoaded = false;
 let chromeBrowsers = [];
 let firefoxBrowsers = [];
 async function loadUserBrowsers() {
-    if (!(await hasPackage('@cityssm/web-browser-info'))) {
+    if (browsersLoaded || !(await hasPackage('@cityssm/web-browser-info'))) {
         return;
     }
     const { chromeWebBrowserTypes, getInstalledWebBrowsers } = await import('@cityssm/web-browser-info');
-    if (!browsersLoaded) {
-        /*
-         * Load Chrome first
-         */
-        const fallbackChromeBrowsers = await getInstalledWebBrowsers(chromeWebBrowserTypes, 
-        // eslint-disable-next-line @typescript-eslint/no-magic-numbers
-        110);
-        chromeBrowsers = fallbackChromeBrowsers;
-        /*
-         * Load Firefox
-         */
-        const fallbackFirefoxBrowsers = await getInstalledWebBrowsers('firefox');
-        firefoxBrowsers = fallbackFirefoxBrowsers;
-        // eslint-disable-next-line require-atomic-updates
-        browsersLoaded = true;
-    }
+    /*
+     * Load Chrome first
+     */
+    const fallbackChromeBrowsers = await getInstalledWebBrowsers(chromeWebBrowserTypes, 
+    // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+    110);
+    chromeBrowsers = fallbackChromeBrowsers;
+    /*
+     * Load Firefox
+     */
+    const fallbackFirefoxBrowsers = await getInstalledWebBrowsers('firefox');
+    firefoxBrowsers = fallbackFirefoxBrowsers;
+    // eslint-disable-next-line require-atomic-updates
+    browsersLoaded = true;
 }
 /**
  * Gets the path to the user's Chrome browser.

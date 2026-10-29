@@ -1,3 +1,5 @@
+/* eslint-disable unicorn/no-top-level-assignment-in-function */
+
 import hasPackage from '@cityssm/has-package'
 import type { InstalledWebBrowser } from '@cityssm/web-browser-info'
 
@@ -6,37 +8,35 @@ let chromeBrowsers: InstalledWebBrowser[] = []
 let firefoxBrowsers: InstalledWebBrowser[] = []
 
 async function loadUserBrowsers(): Promise<void> {
-  if (!(await hasPackage('@cityssm/web-browser-info'))) {
+  if (browsersLoaded || !(await hasPackage('@cityssm/web-browser-info'))) {
     return
   }
 
   const { chromeWebBrowserTypes, getInstalledWebBrowsers } =
     await import('@cityssm/web-browser-info')
 
-  if (!browsersLoaded) {
-    /*
-     * Load Chrome first
-     */
+  /*
+   * Load Chrome first
+   */
 
-    const fallbackChromeBrowsers = await getInstalledWebBrowsers(
-      chromeWebBrowserTypes,
-      // eslint-disable-next-line @typescript-eslint/no-magic-numbers
-      110
-    )
+  const fallbackChromeBrowsers = await getInstalledWebBrowsers(
+    chromeWebBrowserTypes,
+    // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+    110
+  )
 
-    chromeBrowsers = fallbackChromeBrowsers
+  chromeBrowsers = fallbackChromeBrowsers
 
-    /*
-     * Load Firefox
-     */
+  /*
+   * Load Firefox
+   */
 
-    const fallbackFirefoxBrowsers = await getInstalledWebBrowsers('firefox')
+  const fallbackFirefoxBrowsers = await getInstalledWebBrowsers('firefox')
 
-    firefoxBrowsers = fallbackFirefoxBrowsers
+  firefoxBrowsers = fallbackFirefoxBrowsers
 
-    // eslint-disable-next-line require-atomic-updates
-    browsersLoaded = true
-  }
+  // eslint-disable-next-line require-atomic-updates
+  browsersLoaded = true
 }
 
 /**

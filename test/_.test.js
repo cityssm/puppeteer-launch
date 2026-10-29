@@ -1,10 +1,9 @@
 import assert from 'node:assert';
 import { beforeEach, describe, it } from 'node:test';
-import Debug from 'debug';
-import { DEBUG_ENABLE_NAMESPACES, DEBUG_NAMESPACE } from '../debug.config.js';
+import { debuglog } from 'node:util';
+import { DEBUG_NAMESPACE } from '../debug.config.js';
 import puppeteerLaunch from '../index.js';
-Debug.enable(DEBUG_ENABLE_NAMESPACES);
-const debug = Debug(`${DEBUG_NAMESPACE}:test`);
+const debug = debuglog(`${DEBUG_NAMESPACE}:test`);
 await describe('puppeteer-launch', async () => {
     beforeEach(() => {
         // eslint-disable-next-line no-console
@@ -15,9 +14,9 @@ await describe('puppeteer-launch', async () => {
             args: ['--no-sandbox']
         });
         const browserVersion = await browser.version();
-        await browser.close();
         debug(`Browser: ${browserVersion}`);
-        assert.ok(true);
+        await browser.close();
+        assert.ok(!browser.connected, 'Browser should not be connected after closing');
     });
     await it('Launches a Chrome-based browser', async () => {
         const browser = await puppeteerLaunch({
@@ -25,8 +24,8 @@ await describe('puppeteer-launch', async () => {
             browserOrder: ['chrome-user', 'chrome']
         });
         const browserVersion = await browser.version();
-        await browser.close();
         debug(`Browser: ${browserVersion}`);
+        await browser.close();
         assert.match(browserVersion, /chrome\//gi);
     });
     await it('Launches a Firefox browser', async () => {

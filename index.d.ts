@@ -13,4 +13,5 @@ export declare const browserOrderDefault: RetryBrowser[];
 export default function launch(options?: LaunchOptionsWithBrowserOrder): Promise<Browser>;
 export { getCachedBrowser, getCachedChromeBrowser, getCachedFirefoxBrowser, refreshInstalledBrowserCache } from './cache.js';
 export { installBrowser, installChromeBrowser, installFirefoxBrowser, testInstalledBrowser, testInstalledChromeBrowser, testInstalledFirefoxBrowser } from './installers.js';
+export { DEBUG_NAMESPACE } from './debug.config.js';
 export * as puppeteer from 'puppeteer';

@@ -1,3 +1,5 @@
+import { debuglog } from 'node:util'
+
 import {
   Browser,
   BrowserPlatform,
@@ -5,7 +7,6 @@ import {
   install,
   resolveBuildId
 } from '@puppeteer/browsers'
-import Debug from 'debug'
 import puppeteer, { type Browser as PuppeteerBrowser } from 'puppeteer'
 
 import {
@@ -18,7 +19,7 @@ import { DEBUG_NAMESPACE } from './debug.config.js'
 // eslint-disable-next-line @typescript-eslint/no-magic-numbers
 export const INSTALLER_TIMEOUT = 5 * 60 * 1000
 
-const debug = Debug(`${DEBUG_NAMESPACE}:installers`)
+const debug = debuglog(`${DEBUG_NAMESPACE}:installers`)
 
 /**
  * Installs the specified browser for Puppeteer.

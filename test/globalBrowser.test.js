@@ -1,9 +1,9 @@
 import assert from 'node:assert';
 import { describe, it } from 'node:test';
-import Debug from 'debug';
-import { DEBUG_ENABLE_NAMESPACES } from '../debug.config.js';
+import { debuglog } from 'node:util';
+import { DEBUG_NAMESPACE } from '../debug.config.js';
 import { GlobalBrowser } from '../globalBrowser.js';
-Debug.enable(DEBUG_ENABLE_NAMESPACES);
+const debug = debuglog(`${DEBUG_NAMESPACE}:test:globalBrowser`);
 async function sleep(ms) {
     // eslint-disable-next-line promise/avoid-new
     await new Promise((resolve) => {
@@ -24,6 +24,7 @@ await describe('puppeteer-launch', async () => {
         catch {
             assert.fail('Expected to get a browser instance without waiting, but it failed.');
         }
+        debug('Launched browser instance');
         let page = await browser.newPage();
         await page.goto('https://saultstemarie.ca');
         await sleep(idleMillis + 1000); // Wait to ensure the browser is still active

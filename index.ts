@@ -1,4 +1,5 @@
-import Debug from 'debug'
+import { debuglog } from 'node:util'
+
 import {
   type Browser,
   type LaunchOptions,
@@ -9,7 +10,7 @@ import { getCachedBrowser } from './cache.js'
 import { DEBUG_NAMESPACE } from './debug.config.js'
 import { getUserChromePath, getUserFirefoxPath } from './user.js'
 
-const debug = Debug(`${DEBUG_NAMESPACE}:index`)
+const debug = debuglog(`${DEBUG_NAMESPACE}:index`)
 
 type RetryBrowser = 'chrome-user' | 'chrome' | 'firefox-user' | 'firefox'
 
@@ -143,5 +144,7 @@ export {
   testInstalledChromeBrowser,
   testInstalledFirefoxBrowser
 } from './installers.js'
+
+export { DEBUG_NAMESPACE } from './debug.config.js'
 
 export * as puppeteer from 'puppeteer'

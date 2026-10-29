@@ -1,9 +1,9 @@
-import Debug from 'debug';
+import { debuglog } from 'node:util';
 import { launch as puppeteerLaunch } from 'puppeteer';
 import { getCachedBrowser } from './cache.js';
 import { DEBUG_NAMESPACE } from './debug.config.js';
 import { getUserChromePath, getUserFirefoxPath } from './user.js';
-const debug = Debug(`${DEBUG_NAMESPACE}:index`);
+const debug = debuglog(`${DEBUG_NAMESPACE}:index`);
 export const browserOrderDefault = [
     'chrome',
     'firefox',
@@ -95,4 +95,5 @@ export default async function launch(options = {}) {
 }
 export { getCachedBrowser, getCachedChromeBrowser, getCachedFirefoxBrowser, refreshInstalledBrowserCache } from './cache.js';
 export { installBrowser, installChromeBrowser, installFirefoxBrowser, testInstalledBrowser, testInstalledChromeBrowser, testInstalledFirefoxBrowser } from './installers.js';
+export { DEBUG_NAMESPACE } from './debug.config.js';
 export * as puppeteer from 'puppeteer';

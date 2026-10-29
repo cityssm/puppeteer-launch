@@ -42,11 +42,16 @@
     "user.*"
   ],
   "scripts": {
-    "coverage": "c8 --reporter=lcov --reporter=text --reporter=text-summary node --test",
+    "coverage": "c8 --reporter=lcov --reporter=text --reporter=text-summary node --env-file=\".dev.env\" --test \"test/*.test.js\"",
     "install:chrome": "node ./installChrome.js",
     "install:firefox": "node ./installFirefox.js",
-    "test": "node --test \"test/*.test.js\"",
-    "test:globalBrowser": "node --test \"test/globalBrowser.test.js\""
+    "test": "node --env-file=\".dev.env\" --test \"test/*.test.js\"",
+    "test:globalBrowser": "node --env-file=\".dev.env\" --test \"test/globalBrowser.test.js\""
+  },
+  "allowScripts": {
+    "registry-js@1.16.1": true,
+    "win-version-info@6.0.1": true,
+    "puppeteer@25.16.0": true
   },
   "dependencies": {
     "@cityssm/has-package": "^1.0.0",
@@ -65,10 +70,5 @@
   },
   "engines": {
     "node": ">=22.12.0"
-  },
-  "allowScripts": {
-    "registry-js@1.16.1": true,
-    "win-version-info@6.0.1": true,
-    "puppeteer@25.16.0": true
   }
 }

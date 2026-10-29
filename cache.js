@@ -1,11 +1,11 @@
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
+import { debuglog } from 'node:util';
 import { Browser, getInstalledBrowsers } from '@puppeteer/browsers';
-import Debug from 'debug';
 import { DEBUG_NAMESPACE } from './debug.config.js';
 import { installChromeBrowser, installFirefoxBrowser } from './installers.js';
-const debug = Debug(`${DEBUG_NAMESPACE}:cache`);
+const debug = debuglog(`${DEBUG_NAMESPACE}:cache`);
 export const PUPPETEER_CACHE_DIRECTORIES = [
     path.join(process.cwd(), '.cache', 'puppeteer'),
     path.join(import.meta.dirname, '.cache', 'puppeteer'),

@@ -1,11 +1,11 @@
+import { debuglog } from 'node:util';
 import { Browser, BrowserPlatform, detectBrowserPlatform, install, resolveBuildId } from '@puppeteer/browsers';
-import Debug from 'debug';
 import puppeteer from 'puppeteer';
 import { getCachedBrowser, PUPPETEER_CACHE_DIR, refreshInstalledBrowserCache } from './cache.js';
 import { DEBUG_NAMESPACE } from './debug.config.js';
 // eslint-disable-next-line @typescript-eslint/no-magic-numbers
 export const INSTALLER_TIMEOUT = 5 * 60 * 1000;
-const debug = Debug(`${DEBUG_NAMESPACE}:installers`);
+const debug = debuglog(`${DEBUG_NAMESPACE}:installers`);
 /**
  * Installs the specified browser for Puppeteer.
  * Times out after 5 minutes.
