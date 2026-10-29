@@ -48,7 +48,11 @@ export class GlobalBrowser {
   async closeBrowser(): Promise<void> {
     debug('Closing browser instance')
 
-    await this.#browser?.close()
+    try {
+      await this.#browser?.close()
+    } catch (error) {
+      debug('Error closing browser: %O', error)
+    }
 
     this.#browser = undefined
   }
