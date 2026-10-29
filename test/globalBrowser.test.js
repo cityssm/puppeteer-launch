@@ -1,3 +1,4 @@
+/* eslint-disable node-test/no-async-describe */
 import assert from 'node:assert';
 import { describe, it } from 'node:test';
 import { debuglog } from 'node:util';
@@ -7,6 +8,7 @@ const debug = debuglog(`${DEBUG_NAMESPACE}:test:globalBrowser`);
 async function sleep(ms) {
     // eslint-disable-next-line promise/avoid-new
     await new Promise((resolve) => {
+        // eslint-disable-next-line runtime-cleanup/no-floating-timers
         setTimeout(resolve, ms);
     });
 }
